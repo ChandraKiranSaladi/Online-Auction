@@ -1,3 +1,8 @@
 Online Auction
 
-An Auction House
+
+An Auction Website
+
+Colloborators: Chandra Kiran
+                Shubham Kothari
+                Hitesh Gupta TR
