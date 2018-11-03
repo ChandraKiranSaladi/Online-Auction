@@ -1,7 +1,7 @@
 Online Auction
 
 
-An Auction Website
+An Auction Website for Web Programming Language Course.
 
 Colloborators: Chandra Kiran
                Shubham Kothari
