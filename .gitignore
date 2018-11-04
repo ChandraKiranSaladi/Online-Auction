@@ -1,0 +1,5 @@
+# Ignoring node_modules folders
+node_modules
+
+# Ignoring VSCode ide configs
+.vscode
