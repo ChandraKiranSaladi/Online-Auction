@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 //automatically creates Online-Auction database in MongoDB, if already presents, it uses
 // if not it creates one
 
-mongoose.connect(mongoURI, {
+mongoose.connect(mongooseURI, {
   useNewUrlParser: true
 })
 .then(() => {

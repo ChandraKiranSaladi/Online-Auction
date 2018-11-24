@@ -3,7 +3,7 @@
 console.log('Node Server has started');
 const http = require('http');
 const debug = require('debug')('node-debug');
-const app = require('./backend/app');
+const app = require('./app');
 
 const normalizePort = (val) => {
   var port = parseInt(val, 10);
