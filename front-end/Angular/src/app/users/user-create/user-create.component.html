@@ -1,0 +1,21 @@
+<h2>User Create Component</h2>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Login Form
+    </mat-card-title>
+  </mat-card-header>
+  <form #postForm="ngForm">
+    <mat-form-field>
+      <input placeholder="Username" matInput type="text" name="Title" ngModel required #title="ngModel">
+      <mat-error *ngIf="title.invalid">'Enter Title !'</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <textarea matInput name="Content" placeholder="Password" ngModel required #content="ngModel"></textarea>
+      <mat-error *ngIf="content.invalid">'Enter Content !</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="accent" type="submit">Sign In</button>
+    <button mat-raised-button color="accent" type="submit">Login</button>
+
+  </form>
+</mat-card>
