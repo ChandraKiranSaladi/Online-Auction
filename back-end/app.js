@@ -1,10 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+// const expressValidator = require('express-validator');
+
+const userRouter = require('./routers/userRouter');
+const itemRouter = require('./routers/itemRouter');
+const scheduleRouter = require('./routers/scheduleRouter');
 
 const mongooseURI = 'mongodb://localhost:27017/Online-Auction';
-
 const app = express();
+
 
 //Essential for setting http headers
 app.use(bodyParser.urlencoded({
@@ -32,16 +37,8 @@ mongoose.connect(mongooseURI, {
   console.log("Connection failed");
 });
 
-
-
-app.post('/api/signup'), (req, res, next) => {
-
-};
-
-app.get('/api/userdetails', (req, res, next) => {
-
-});
-
-
+app.use('/api/user',userRouter);
+app.use('/api/item',itemRouter);
+app.use('/api/schedule',scheduleRouter);
 
 module.exports = app;

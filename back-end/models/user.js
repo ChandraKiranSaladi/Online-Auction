@@ -7,13 +7,14 @@ const userSchema = new mongoose.Schema({
         unique: true,
         required: true
       },
-      name: {
-        type: String,
-        required: true
+      name: { 
+        firstname: { type: String, required: true},
+        lastname:  { type: String,  required: true}
       },
-      hash: String,
-      salt: String
-
+      hash: {type: String,required: true },
+      role: String,
+      created: { type: Date, default: Date.now },
+      lastActivity: String
     });
 
 module.exports = mongoose.model('User',userSchema);
