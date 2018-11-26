@@ -2,7 +2,8 @@ var jwt = require('jsonwebtoken');
 var config = require('../config');
 
 function verifyToken(req, res, next) {
-    var token = req.headers.authorization;
+    
+    var token = req.headers.authorization.replace('Bearer ',''); 
     if (!token)
         return res.status(403).json({
             auth: false,
@@ -16,8 +17,7 @@ function verifyToken(req, res, next) {
                 message: 'Failed to authenticate token.'
             });
         
-        req.body.userId = decoded.id;
-        next();
+        req.userId = decoded.id;
     });
 }
 module.exports = verifyToken;

@@ -5,11 +5,14 @@ const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 const verifyToken = require('../auth/VerifyToken');
 const config = require('../config');
-
+const crypto = require('crypto');
 //user
 exports.create = (req, res, next) => {
 
     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+        if (err) return sendErrorMessage(res, {
+            bcrypt: "error"
+        });
         console.log(req.body);
 
         const user = new User({
@@ -44,11 +47,12 @@ exports.create = (req, res, next) => {
             })
             .catch((error) => {
                 console.log("error from mongo" + error);
-                sendErrorMessage(res,{
+                return sendErrorMessage(res, {
                     userRegistration: "failed"
                 });
             });
     });
+
 };
 
 exports.login = (req, res, next) => {
@@ -63,7 +67,7 @@ exports.login = (req, res, next) => {
                 message: 'Couldn\'t access database for the user'
             }
         });
-        if (!user) sendErrorMessage(res,{
+        if (!user) return sendErrorMessage(res, {
             noUser: "noUser"
         });
 
@@ -90,6 +94,190 @@ exports.login = (req, res, next) => {
 }
 exports.logout = (req, res, next) => {
     // user details
+    verifyToken(req, res, next);
+    if (!req.userId)
+        return;
+    User.findByIdAndUpdate(req.userId, {
+            lastActivity: new Date()
+        },
+        (err, user) => {
+            if (err) return res.status(500).json({
+                status: "failed",
+                message: "error on server",
+                error: {
+                    message: 'Couldn\'t access database for the user'
+                }
+            });
+            if (!user) return sendErrorMessage(res, {
+                noUser: "noUser"
+            });
+            console.log("logged out");
+            return res.status(200).json({
+                status: "success",
+                message: "User logged off",
+                data: {
+                    auth: "false",
+                    token: null
+                },
+                error: []
+            })
+        }
+
+    );
+
+};
+
+//working
+exports.profile = (req, res, next) => {
+    verifyToken(req, res, next);
+    if (!req.userId)
+        return;
+    User.findOne({
+            _id: req.userId
+        },
+        (err, user) => {
+            if (err) return res.status(500).json({
+                status: "failed",
+                message: "error on server",
+                error: {
+                    message: 'Couldn\'t access database for the user'
+                }
+            });
+            if (!user) return sendErrorMessage(res, {
+                noUser: "noUser"
+            });
+            console.log("user details found" + user.email);
+            return res.status(200).json({
+                status: "success",
+                message: "User Details",
+                data: {
+                    email: user.email,
+                    name: {
+                        firstname: user.name.firstname,
+                        lastname: user.name.lastname,
+                    },
+                },
+                error: []
+            })
+        }
+
+    );
+
+};
+
+//needs work
+exports.passwordReset = (req, res, next) => {
+
+    var randomHash = '';
+    crypto.randomBytes(20, function (err, buf) {
+        randomHash = buf.toString('hex');
+        if (err) console.log("crypto error");
+    });
+
+    User.find({
+            _id: req.body.email
+        },
+        (err, user) => {
+            if (err) return res.status(500).json({
+                status: "failed",
+                message: "error on server",
+                error: {
+                    message: 'Couldn\'t access database for the user'
+                }
+            });
+            if (!user) return sendErrorMessage(res, {
+                noUser: "noUser"
+            });
+            console.log("user details found");
+            user.resetPasswordToken = randomHash;
+            user.resetPasswordExpires = Date.now() + 600; // 5 minutes
+            user.save()
+                .then((doc) => {
+                    console.log("reset token saved");
+                })
+                .catch((err) => {
+                    console.log("error " + err);
+                });
+
+            (randomHash, user, done) => {
+                var smtpTransport = nodemailer.createTransport('SMTP', {
+                    service: 'Gmail',
+                    auth: {
+                        user: 'kiran1ck18@gmail.com',
+                        pass: 'myfutureawaits'
+                    }
+                });
+                var mailOptions = {
+                    to: user.email,
+                    from: 'passwordreset@auctioneo.com',
+                    subject: 'Account Password Reset',
+                    text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                        'http://' + req.headers.host + '/reset/' + randomHash + '\n\n' +
+                        'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                };
+                smtpTransport.sendMail(mailOptions, function (err) {
+                    if (err) {
+                        return sendErrorMessage(res, {
+                            mailerror: "mail"
+                        });
+                    };
+                    console.log("Email sent");
+
+                });
+            }
+            return res.status(200).json({
+                status: "success",
+                message: "Mail sent to " + user.email,
+                error: []
+            });
+        }
+
+    );
+    // reset link and then updateById.
+}
+
+// except password update
+exports.update = (req, res, next) => {
+
+    verifyToken(req, res, next);
+    if (!req.userId)
+        return;
+
+    User.findByIdAndUpdate(req.userId, {
+            name: {
+                firstname: req.body.name.firstname,
+                lastname: req.body.name.lastname,
+            }
+        },
+        (err, user) => {
+            if (err) return res.status(500).json({
+                status: "failed",
+                message: "error on server",
+                error: {
+                    message: 'Couldn\'t access database for the user'
+                }
+            });
+            if (!user) return sendErrorMessage(res, {
+                noUser: "noUser"
+            });
+            console.log("Updated details");
+            return res.status(200).json({
+                status: "success",
+                message: "updated details",
+                error: []
+            });
+        }
+
+    );
+}
+
+exports.updatePassword = (req, res, next) => {
+    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+        if (err) return sendErrorMessage(res, {
+            bcrypt: "error"
+        });
+    });
     res.send("dummy");
 };
 exports.getById = (req, res, next) => {
@@ -98,16 +286,57 @@ exports.getById = (req, res, next) => {
 exports.updateById = (req, res, next) => {
     res.send("dummy");
 };
+
 exports.deleteById = (req, res, next) => {
     res.send("dummy");
 };
+
+//Needs testing
 exports.admin_getAllUsers = (req, res, next) => {
     // To-Do: implement admin check...
-    res.send("dummy");
+
+    verifyToken(req, res, next);
+    if (!req.userId)
+        return;
+    User.findOne({
+            _id: req.userId
+        },
+        (err, user) => {
+            if (err) return res.status(500).json({
+                status: "failed",
+                message: "error on server",
+                error: {
+                    message: 'Couldn\'t access database for the user'
+                }
+            });
+            if (!user) return sendErrorMessage(res, {
+                noUser: "noUser"
+            });
+            console.log("user details found" + user);
+            if (user.role !== "admin")
+                return sendErrorMessage(res, {
+                    noUser: "noUser"
+                });
+
+            User.find({}, function (err, users) {
+                var userMap = {};
+
+                users.forEach(function (user) {
+                    userMap[user._id] = user;
+                });
+
+                res.status(200).json({
+                    status: "success",
+                    message: "List of all users",
+                    data: userMap,
+                    error: []
+                });
+            });
+        });
+
 };
 
-
-function sendErrorMessage(res,err) {
+function sendErrorMessage(res, err) {
     if (err.failed) {
         // when credentials provided are incorrect
         console.log("credentials are wrong");
@@ -137,6 +366,26 @@ function sendErrorMessage(res,err) {
             message: "login failed",
             error: {
                 message: "no user with email exists"
+            }
+        });
+    } else if (err.mailerror) {
+        // no user exists 
+        console.log("smtptransport sendmail error");
+        return res.status(400).json({
+            status: "failed",
+            message: "password reset failed",
+            error: {
+                message: "Unable to send mail"
+            }
+        });
+    } else if (err.bcrypt) {
+        // no user exists 
+        console.log("bcrypt error");
+        return res.status(500).json({
+            status: "failed",
+            message: "bcrypt",
+            error: {
+                message: "Unable to save user"
             }
         });
     }

@@ -10,6 +10,8 @@ const scheduleRouter = require('./routers/scheduleRouter');
 const mongooseURI = 'mongodb://localhost:27017/Online-Auction';
 const app = express();
 
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true)
 
 //Essential for setting http headers
 app.use(bodyParser.urlencoded({
