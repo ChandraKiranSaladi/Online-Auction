@@ -1,0 +1,3 @@
+2018-12-02T01:12:19.560Z info: Connected to database at 27017
+2018-12-02T01:12:19.621Z info: Connected to RabbitMQ.
+[*] Waiting for messages in Online-Auction. To exit press CTRL+C
