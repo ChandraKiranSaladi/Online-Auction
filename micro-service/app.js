@@ -1,11 +1,11 @@
-var mongoose = require('mongoose');
-var amqp = require('amqplib/callback_api');
+const mongoose = require('mongoose');
+const amqp = require('amqplib/callback_api');
 
-var redis = require('redis');
-var redisClient = redis.createClient();
+const redis = require('redis');
+const redisClient = redis.createClient();
 
-var Bid = require("./models/bids");
-var logger = require("./helper/log");
+const Bid = require("./models/bids");
+const logger = require("./helper/log");
 
 const mongooseURI = 'mongodb://localhost:27017/Online-Auction';
 

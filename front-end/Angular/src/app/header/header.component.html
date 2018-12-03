@@ -1,1 +1,16 @@
-<mat-toolbar color="primary">Login Form</mat-toolbar>
+<mat-toolbar color="primary">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <mat-toolbar-row>
+        <span>Zeppelin</span>
+        <span class="example-spacer"></span>
+        <button mat-button *ngIf="!isLoggedIn()" (click)="router.navigate(['/login'])"><span>Login<i class="fas fa-sign-in-alt example-icon"></i></span></button>
+        <button mat-button *ngIf="isLoggedIn()"><span><i class="fas fa-plus example-icon"></i>Post</span></button>
+        <button mat-button *ngIf="isLoggedIn()" (click)="router.navigate(['/profile'])"><span><i class="far fa-user example-icon"></i>Profile</span></button>
+        <button mat-button *ngIf="isLoggedIn()" (click)="signout()"><span>Logout<i class="fas fa-sign-out-alt example-icon"></i></span></button>
+      </mat-toolbar-row>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</mat-toolbar>

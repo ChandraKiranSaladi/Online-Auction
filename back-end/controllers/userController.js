@@ -74,7 +74,10 @@ exports.login = (req, res, next) => {
         bcrypt.compare(req.body.password, user.hash, (err, result) => {
             if (result) {
                 var token = jwt.sign({
-                    id: user._id
+                    id: user._id,
+                    role: user.role,
+                    name: `${user.name.firstname} ${user.name.lastname}`,
+                    email: user.email
                 }, "warrior", {
                     expiresIn: "1h"
                 });
