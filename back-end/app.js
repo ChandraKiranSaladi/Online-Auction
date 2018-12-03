@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Compression = require('compression');
+const helmet = require("helmet");
 // const expressValidator = require('express-validator');
 
 const userRouter = require('./routers/userRouter');
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 app.use(Compression());
+app.use(helmet());
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
