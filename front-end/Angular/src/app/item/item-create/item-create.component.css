@@ -1,0 +1,35 @@
+.item-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-container > * {
+  width: 100%;
+}
+
+.mat-card:not([class*=mat-elevation-z]) {
+  margin:auto;
+  width:80%;
+  box-shadow: 0 1px 13px 5px rgba(0,0,0,0.34);
+}
+
+mat-form-field, textarea{
+  width:100%;
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image-preview {
+  height: 5rem;
+  margin: 1rem 0;
+}
+
+.image-preview img {
+  height: 100%;
+}
+
+mat-spinner {
+  margin: auto;
+}

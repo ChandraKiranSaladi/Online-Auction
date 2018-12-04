@@ -1,4 +1,18 @@
+html,body{
+  padding:0px;
+  margin:0px;
+}
+
 main {
-  width: 70%;
-  margin: auto;
+
+  margin-top:1rem;
+  width:80%;
+  margin:auto;
+
+}
+
+app-footer {
+  position: relative;
+  bottom: 0;
+  width:100%;
 }

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import * as moment from 'moment';
 
 import {
   MatInputModule,
@@ -13,8 +14,11 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
+  MatProgressSpinner,
+  MatTabsModule,
+  MatDatepickerModule,
   MatProgressSpinnerModule,
-  MatTabsModule
+  MatNativeDateModule
 } from '@angular/material';
 
 
@@ -28,15 +32,21 @@ import { JwtInterceptor } from './Helpers/jwt.interceptor';
 import { AuthenticationService } from './services/authentication.service';
 import { ProfileService } from './services/profile.service';
 import { AdminComponent } from './admin/admin.component';
+import { ItemCreateComponent } from './item/item-create/item-create.component';
+import { ItemListComponent } from './item/item-history/item-list.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    FooterComponent,
     UserCreateComponent,
     ProfileComponent,
     LoginComponent,
-    AdminComponent
+    AdminComponent,
+    ItemCreateComponent,
+    ItemListComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +64,8 @@ import { AdminComponent } from './admin/admin.component';
     MatSortModule,
     MatProgressSpinnerModule,
     MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     HttpClientModule
   ],
   providers: [

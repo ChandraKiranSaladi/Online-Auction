@@ -241,6 +241,59 @@ exports.passwordReset = (req, res, next) => {
     // reset link and then updateById.
 }
 
+exports.passwordResetGet = (req,res,next) => {
+    //, resetPasswordExpires: { $gt: Date.now() }
+        User.findOne({ resetPasswordToken: req.params.token }, function(err, user) {
+          if (!user) {
+            return res.status(400).json({
+                status: "failed",
+                message: "Reset link is not valid",
+                error : [{ message: "Password reset token is invalid or has expired"}]
+            });
+          }
+          return res.status(200).json({
+              status: "success",
+              message: "Ok",
+              error: []
+          });
+        });
+
+}
+
+exports.passwordResetPost = (req,res,next) => {
+    //, resetPasswordExpires: { $gt: Date.now() } 
+    User.findOne({ resetPasswordToken: req.params.token }, function(err, user) {
+        console.log("postreset: "+err);
+        if (!user) {
+            return res.status(400).json({
+                status: "failed",
+                message: "Reset link is not valid",
+                error : [{ message: "Password reset token is invalid or has expired"}]
+            });
+        }
+
+        user.password = req.body.password;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+
+        user.save((err) => {
+            if(err) {
+                console.log("error in resetpasswordpost");
+                res.status(500).json({
+                    status: "failed",
+                    message: "error",
+                    error: [{message: "error occured while changing"}]
+                });
+            }
+            console.log("passsword changed");
+            res.status(201).json({
+                status: "success",
+                message: "Changed",
+                error: []
+            });
+        })
+        });
+}
 // except password update
 exports.update = (req, res, next) => {
 

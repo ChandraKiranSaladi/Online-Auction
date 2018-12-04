@@ -5,11 +5,15 @@ import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './Guard/auth.guard';
 import { RoleGuard } from './Guard/role.guard';
+import { ItemCreateComponent } from './item/item-create/item-create.component';
+import { ItemListComponent } from './item/item-history/item-list.component';
 
 const routes: Routes = [
   { path: '', component: UserCreateComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
+  { path:  'item', component: ItemListComponent},
+  { path:  'item/create', component: ItemCreateComponent}
   // { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { expectedRole: ['Admin'] } }
 ];
 
