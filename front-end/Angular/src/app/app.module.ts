@@ -27,6 +27,7 @@ import { RegisterComponent } from './register/register.component';
 import { JwtInterceptor } from './Helpers/jwt.interceptor';
 import { AuthenticationService } from './services/authentication.service';
 import { ProfileService } from './services/profile.service';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ProfileService } from './services/profile.service';
     UserCreateComponent,
     ProfileComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const saltRounds = 10;
-const verifyToken = require('../auth/VerifyToken');
+// const verifyToken = require('../auth/VerifyToken');
 const config = require('../config');
 const crypto = require('crypto');
 //user
@@ -97,7 +97,7 @@ exports.login = (req, res, next) => {
 }
 exports.logout = (req, res, next) => {
     // user details
-    verifyToken(req, res, next);
+    // verifyToken(req, res, next);
     if (!req.userId)
         return;
     User.findByIdAndUpdate(req.userId, {
@@ -132,7 +132,7 @@ exports.logout = (req, res, next) => {
 
 //working
 exports.profile = (req, res, next) => {
-    verifyToken(req, res, next);
+    // verifyToken(req, res, next);
     if (!req.userId)
         return;
     User.findOne({
@@ -243,7 +243,7 @@ exports.passwordReset = (req, res, next) => {
 // except password update
 exports.update = (req, res, next) => {
 
-    verifyToken(req, res, next);
+    // verifyToken(req, res, next);
     if (!req.userId)
         return;
 
@@ -298,7 +298,7 @@ exports.deleteById = (req, res, next) => {
 exports.admin_getAllUsers = (req, res, next) => {
     // To-Do: implement admin check...
 
-    verifyToken(req, res, next);
+    // verifyToken(req, res, next);
     if (!req.userId)
         return;
     User.findOne({
