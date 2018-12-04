@@ -1,10 +1,11 @@
 const userController = require('../controllers/userController');
 const verifyToken = require('../auth/VerifyToken');
+const checkAdmin = require('../auth/CheckAdmin');
 
 const express = require('express');
 const router = express.Router();
 
-// router.get('/getAll'.userController.admin_getAllUsers);
+// router.get('/getAll', verifyToken, checkAdmin, userController.admin_getAllUsers);
 
 router.post('/register', userController.create);
 router.post('/login', userController.login);

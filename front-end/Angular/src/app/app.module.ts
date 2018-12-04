@@ -13,7 +13,8 @@ import {
   MatTableModule,
   MatPaginatorModule,
   MatSortModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatTabsModule
 } from '@angular/material';
 
 
@@ -23,7 +24,6 @@ import { UserCreateComponent } from './users/user-create/user-create.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { JwtInterceptor } from './Helpers/jwt.interceptor';
 import { AuthenticationService } from './services/authentication.service';
 import { ProfileService } from './services/profile.service';
@@ -36,7 +36,6 @@ import { AdminComponent } from './admin/admin.component';
     UserCreateComponent,
     ProfileComponent,
     LoginComponent,
-    RegisterComponent,
     AdminComponent
   ],
   imports: [
@@ -54,6 +53,7 @@ import { AdminComponent } from './admin/admin.component';
     MatPaginatorModule,
     MatSortModule,
     MatProgressSpinnerModule,
+    MatTabsModule,
     HttpClientModule
   ],
   providers: [

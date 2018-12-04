@@ -18,5 +18,9 @@ export class HeaderComponent {
 	signout() {
 		this.authService.logout();
 		this.router.navigate(['/']);
-	}
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin();
+  }
 }

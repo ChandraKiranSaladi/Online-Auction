@@ -6,6 +6,18 @@ const saltRounds = 10;
 // const verifyToken = require('../auth/VerifyToken');
 const config = require('../config');
 const crypto = require('crypto');
+
+var signJWT = function (user) {
+    return jwt.sign({
+        id: user._id,
+        role: user.role,
+        name: `${user.name.firstname} ${user.name.lastname}`,
+        email: user.email
+    }, config.secret, {
+            expiresIn: "1h"
+        });
+}
+
 //user
 exports.create = (req, res, next) => {
 
@@ -30,11 +42,7 @@ exports.create = (req, res, next) => {
         user.save()
             .then((result) => {
                 console.log("User created");
-                var token = jwt.sign({
-                    id: result._id
-                }, config.secret, {
-                    expiresIn: '1h'
-                });
+                var token = signJWT(user);
                 res.status(201).json({
                     status: "success",
                     message: "User create successful",
@@ -73,15 +81,8 @@ exports.login = (req, res, next) => {
 
         bcrypt.compare(req.body.password, user.hash, (err, result) => {
             if (result) {
-                var token = jwt.sign({
-                    id: user._id,
-                    role: user.role,
-                    name: `${user.name.firstname} ${user.name.lastname}`,
-                    email: user.email
-                }, "warrior", {
-                    expiresIn: "1h"
-                });
-                console.log("user login succesful");
+                var token = signJWT(user);
+                    console.log("user login succesful");
                 res.status(200).json({
                     status: 'success',
                     message: {
@@ -101,8 +102,8 @@ exports.logout = (req, res, next) => {
     if (!req.userId)
         return;
     User.findByIdAndUpdate(req.userId, {
-            lastActivity: new Date()
-        },
+        lastActivity: new Date()
+    },
         (err, user) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -136,8 +137,8 @@ exports.profile = (req, res, next) => {
     if (!req.userId)
         return;
     User.findOne({
-            _id: req.userId
-        },
+        _id: req.userId
+    },
         (err, user) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -178,8 +179,8 @@ exports.passwordReset = (req, res, next) => {
     });
 
     User.find({
-            _id: req.body.email
-        },
+        _id: req.body.email
+    },
         (err, user) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -248,11 +249,11 @@ exports.update = (req, res, next) => {
         return;
 
     User.findByIdAndUpdate(req.userId, {
-            name: {
-                firstname: req.body.name.firstname,
-                lastname: req.body.name.lastname,
-            }
-        },
+        name: {
+            firstname: req.body.name.firstname,
+            lastname: req.body.name.lastname,
+        }
+    },
         (err, user) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -302,8 +303,8 @@ exports.admin_getAllUsers = (req, res, next) => {
     if (!req.userId)
         return;
     User.findOne({
-            _id: req.userId
-        },
+        _id: req.userId
+    },
         (err, user) => {
             if (err) return res.status(500).json({
                 status: "failed",
