@@ -13,7 +13,9 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path:  'item', component: ItemListComponent},
-  { path:  'item/create', component: ItemCreateComponent}
+  { path:  'item/create', component: ItemCreateComponent},
+
+  { path: '**', redirectTo: '' }
   // { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { expectedRole: ['Admin'] } }
 ];
 

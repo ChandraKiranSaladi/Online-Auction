@@ -1,8 +1,8 @@
 // npm start startServer  ==> starts the server with nodemon
 
 console.log('Node Server has started');
-// const http = require('http');
-var https = require('https');
+const http = require('http');
+// var https = require('https');
 var fs = require('fs');
 const debug = require('debug')('node-debug');
 const app = require('./app');
@@ -48,14 +48,14 @@ const port = normalizePort(process.env.PORT || 3000);
 app.set("port", port);
 
 //Server starts
-// const server = http.createServer(app);
-var options = {
-  key: fs.readFileSync('./localhost.key'),
-  cert: fs.readFileSync('./localhost.cert'),
-  requestCert: false,
-  rejectUnauthorized: false
-};
-var server = https.createServer(options, app);
+const server = http.createServer(app);
+// var options = {
+//   key: fs.readFileSync('./localhost.key'),
+//   cert: fs.readFileSync('./localhost.cert'),
+//   requestCert: false,
+//   rejectUnauthorized: false
+// };
+// var server = https.createServer(options, app);
 
 //Check for errors  & Start node debugger(onlistening)
 server.on("error", onError);

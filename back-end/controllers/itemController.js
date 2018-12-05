@@ -34,18 +34,21 @@ exports.getAllItems = (req, res, next) => {
 exports.post = (req, res, next) => {
 
     const url = req.protocol + '://'+req.get("host");
-    const item = new Post({
+    const item = new Item({
       title: req.body.item.title,
       content: req.body.item.content,
-      price: req.body.item.price,
+      initialBidPrice: req.body.item.price,
       date: req.body.item.date,
-      time: {start: req.body.item.start, end: req.body.time.end}, 
-      imagePath: url+"/images/"+ req.file.filename
-    });
+      time: {start: req.body.item.time.start, end: req.body.item.time.end},
+      userId: req.userId, 
+      imagePath: url+"/images/"
+    //   + req.file.filename
 
+    });
+    console.log(item);
 
     // create item in db
-    Item.save()
+    item.save()
         .then((result) => {
             console.log(result);
             const temp = [];
@@ -64,7 +67,7 @@ exports.post = (req, res, next) => {
                         }
                     }
                 },
-                (err, user) => {
+                (err, sched) => {
                     if (err) return res.status(500).json({
                         status: "failed",
                         message: "error on server",
@@ -72,18 +75,20 @@ exports.post = (req, res, next) => {
                             message: 'Couldn\'t access database for the user'
                         }
                     });
-                    if (!user) {
+                    if (!sched) {
                         console.log("schedule being created for the day");
                         schedule.save()
                             .then((result) => {
+                                console.log(result);
                                 return res.status(200).json({
                                     status: "success",
                                     message: "Post Item registered",
                                     error: []
                                 })
+                                
                             })
                             .catch((err) => {
-                                console.log("schedule update item post error")
+                                console.log("schedule update item post error:aa "+err);
                                 return res.status(500).json({
                                     status: "failed",
                                     message: "error on server",
@@ -93,7 +98,9 @@ exports.post = (req, res, next) => {
                                 });
                             })
                     }
-                    console.log("schedule details found" + user);
+
+                    // if schedule already exists, then access sched.itemIds and then push the itemId in there
+                    console.log("schedule details found" + sched);
                     return res.status(200).json({
                         status: "success",
                         message: "Post Item registered",

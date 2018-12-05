@@ -1,4 +1,4 @@
-export interface Item {
+export class Item {
   id: string;
   title: string;
   content: string;

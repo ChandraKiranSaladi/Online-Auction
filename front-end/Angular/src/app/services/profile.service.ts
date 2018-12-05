@@ -13,8 +13,7 @@ export class ProfileService {
   constructor(private http: HttpClient) { }
 
   getUserDetails() {
-    return this.http.get(this.baseUrl + "/user/profile").pipe(
-      map((res: Response) => { return res })
-    )
+    return this.http.get(this.baseUrl + '/user/profile').pipe(
+      map((res: Response) => res ));
   }
 }

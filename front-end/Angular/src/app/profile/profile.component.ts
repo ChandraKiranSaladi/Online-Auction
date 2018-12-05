@@ -43,13 +43,13 @@ export class ProfileComponent implements OnInit {
       }
     );
     // API
-    for (let i = 0; i < 10; i++) {
-      const element = new Item();
-      element.title = 'element ' + i;
-      element.initialBidPrice = 2 * i + 0.5 * i;
-      element.auctionDateTime = new Date(new Date().getTime() - i * 5000);
-      this.items.push(element);
-    }
+    // for (let i = 0; i < 10; i++) {
+    //   const element = new Item();
+    //   element.title = 'element ' + i;
+    //   element.initialBidPrice = 2 * i + 0.5 * i;
+    //   element.auctionDateTime = new Date(new Date().getTime() - i * 5000);
+    //   this.items.push(element);
+    // }
     this.dataSource = new MatTableDataSource(this.items);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;

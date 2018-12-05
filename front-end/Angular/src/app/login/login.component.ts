@@ -122,7 +122,7 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.reset_success = data["message"];
+          this.reset_success = data['message'];
           this.loading = false;
         },
         error => {

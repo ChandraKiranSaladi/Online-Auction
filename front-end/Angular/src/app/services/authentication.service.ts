@@ -26,7 +26,7 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string) {
-    return this.http.post<any>(this.baseUrl + "/user/login", { email, password })
+    return this.http.post<any>(this.baseUrl + '/user/login', { email, password })
       .pipe(map(res => {
         // login successful if there's a jwt token in the response
         let token = new Token();
@@ -42,7 +42,7 @@ export class AuthenticationService {
   }
 
   register(firstname: string, lastname: string, email: string, password: string) {
-    return this.http.post<any>(this.baseUrl + "/user/register", { "name": { firstname, lastname }, email, password })
+    return this.http.post<any>(this.baseUrl + '/user/register', { 'name': { firstname, lastname }, email, password })
       .pipe(map(res => {
         let token = new Token();
         if (res && res.data.token) {
@@ -58,22 +58,24 @@ export class AuthenticationService {
 
   forgotPassword(email: String) {
     console.log(email);
-    return this.http.post<any>(this.baseUrl + "/user/passwordreset", { email })
-      .pipe(map(res=>{ return res;}));
+    return this.http.post<any>(this.baseUrl + '/user/passwordreset', { email })
+      .pipe(map(res =>  res ));
   }
 
   extractTokenInfo(token_str: String): Token {
-    let token = new Token();
+    const token = new Token();
     token.token = token_str;
 
-    var decoded = jwtdecode(token_str);
+    const decoded = jwtdecode(token_str);
 
     if (decoded.exp !== undefined) {
       const date = new Date(0);
       date.setUTCSeconds(decoded.exp);
       token.expires = date;
     }
-    if (decoded.role !== undefined) token.role = decoded.role;
+    if (decoded.role !== undefined) {
+      token.role = decoded.role;
+    }
 
     return token;
   }
@@ -88,8 +90,7 @@ export class AuthenticationService {
     if (token && token.token && token.expires) {
       const date = token.expires;
       return !(new Date(date).valueOf() > new Date().valueOf());
-    }
-    else {
+    } else {
       return true;
     }
   }
@@ -103,7 +104,7 @@ export class AuthenticationService {
   }
 
   isAdmin() {
-    return this.isLoggedIn && this.getRole().toLowerCase() === "admin";
+    return this.isLoggedIn && this.getRole().toLowerCase() === 'admin';
   }
 
 }

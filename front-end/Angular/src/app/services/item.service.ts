@@ -15,7 +15,7 @@ export class ItemService {
 
   getItems() {
 
-    this.http.get<{message: String, items: any}>('http://localhost:3000/api/items')
+    this.http.get<{message: String, items: any}>('http://localhost:3000/api/item')
       .pipe(map((itemData) => {
           return itemData.items.map(item => {
             return {
@@ -42,12 +42,12 @@ export class ItemService {
 
   getItem(id: String) {
     return this.http.get<{_id: string, title: string, content: string, date: string, price: string,
-                            start: string, end: string }>('http://localhost:3000/api/items/' + id);
+                            start: string, end: string }>('http://localhost:3000/api/item/' + id);
   }
 
   updateItem(id: string,  title: string, content: string, date: string, price: string, start: string, end: string ) {
     const item: Item = { id: id, title: title, content: content, price: price, start: start, end: end, date: date, imagePath: null};
-    this.http.put<{}>('http://localhost:3000/api/items/' + id, item)
+    this.http.put<{}>('http://localhost:3000/api/item/' + id, item)
       .subscribe(response => {
         const UpdatedItems = [...this.items];
         const OldItemIndex = UpdatedItems.findIndex(p => p.id === id );
@@ -70,7 +70,7 @@ export class ItemService {
     itemData.append('date', date);
     itemData.append('image', image, title);
     console.log(`additem: ${itemData}`);
-    this.http.post<{message: string, item: Item }>('http://localhost:3000/api/items/create', itemData)
+    this.http.post<{message: string, item: Item }>('http://localhost:3000/api/item/create', itemData)
       .subscribe((responseData) => {
           const item: Item = {id: responseData.item.id, title: title, content: content, date: date, price: price,
                               start: start, end: end, imagePath: responseData.item.imagePath };
