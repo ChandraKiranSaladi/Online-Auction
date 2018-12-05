@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Subscription} from 'rxjs';
 
-import { Item } from '../item.model';
-import { ItemService } from '../item.service';
+import { Item } from '../../models/Item';
+import { ItemService } from '../../services/item.service';
 @Component({
 
     selector: 'app-item-list',

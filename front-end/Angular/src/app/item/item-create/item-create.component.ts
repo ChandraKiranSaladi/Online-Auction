@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
 import * as moment from 'moment';
-import { Item } from '../item.model';
-import { ItemService } from '../item.service';
+import { Item } from '../../models/Item';
+import { ItemService } from '../../services/item.service';
 import { ParamMap, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { mimeType } from './mime-type.validator';

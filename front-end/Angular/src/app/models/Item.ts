@@ -1,8 +1,10 @@
-export class Item {
-	title: String;
-	photo: String;
-	description: String;
-	caption: String;
-	initialBidPrice: Number;
-	auctionDateTime: Date;
+export interface Item {
+  id: string;
+  title: string;
+  content: string;
+  date: string;
+  price: string;
+  start: string;
+  end: string;
+  imagePath: string;
 }

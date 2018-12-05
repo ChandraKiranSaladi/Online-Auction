@@ -1,4 +1,4 @@
-import { Item } from './item.model';
+import { Item } from '../models/Item';
 import { Injectable } from '@angular/core';
 import {Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';

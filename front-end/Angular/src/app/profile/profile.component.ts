@@ -16,10 +16,10 @@ export class ProfileComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   user: User;
-  isEdit: boolean = false;
-  isAdmin: boolean = false;
+  isEdit = false;
+  isAdmin = false;
   items: Item[] = [];
-  displayedColumns = ["name", "initialBidPrice", "auctionDateTime"];
+  displayedColumns = ['name', 'initialBidPrice', 'auctionDateTime'];
   dataSource = null;
   error: String = '';
   profileLoading: Boolean = true;
@@ -29,23 +29,23 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.profileService.getUserDetails().subscribe(
       (data) => {
-        var user_data = data["data"];
-        user_data["role"] = this.authService.getRole();
+        const user_data = data['data'];
+        user_data['role'] = this.authService.getRole();
         this.user = Object.assign(new User, user_data);
-        this.isAdmin = this.user.role.toLowerCase() == "admin";
-        this.error = ""
+        this.isAdmin = this.user.role.toLowerCase() === 'admin';
+        this.error = '';
         this.profileLoading = false;
       },
       (err) => {
         console.log(err);
-        this.error = "Failed to fetch User Details.";
+        this.error = 'Failed to fetch User Details.';
         this.profileLoading = false;
       }
     );
-    //API
+    // API
     for (let i = 0; i < 10; i++) {
       const element = new Item();
-      element.title = "element " + i;
+      element.title = 'element ' + i;
       element.initialBidPrice = 2 * i + 0.5 * i;
       element.auctionDateTime = new Date(new Date().getTime() - i * 5000);
       this.items.push(element);
