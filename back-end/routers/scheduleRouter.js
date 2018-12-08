@@ -1,6 +1,6 @@
 const scheduleController = require('../controllers/scheduleController');
 const express = require('express');
-
+const verifyToken = require('../auth/VerifyToken');
 const router = express.Router();
 
 router.get('/getAll',verifyToken,scheduleController.getAll);
