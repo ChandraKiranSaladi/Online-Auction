@@ -12,11 +12,12 @@ const MIME_TYPE_MAP = {
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       const isValid = MIME_TYPE_MAP[file.mimetype];
+      console.log("mime-type: " + file.mimetype);
       let error = new Error("invalid mime type");
       if(isValid){
         error = null;
       }
-      cb(error, "backend/images");
+      cb(error, "images");
     },
     filename: (req, file, cb) => {
       const name = file.originalname.toLowerCase().split(' ').join('-');
