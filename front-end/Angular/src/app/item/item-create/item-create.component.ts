@@ -93,7 +93,10 @@ export class ItemCreateComponent implements OnInit {
     }
     // this.form.reset();
   }
-
+//singlesign on, primary seconday, security protocols: saml, openOauth, openId, SSL/tls, memchachong, compression. 
+// general implementation. 20-30 html, 20 xml, 20 serveLets, jsps, 20, webservices, 20 security. 
+// length paper, be specific. to the point. two differences. means two differences. 
+// 1 / 2 questions might be big. 20 minute questions. 
   OnImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
      // patchValue allows to control the value of single input

@@ -4,10 +4,11 @@ import {Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class ItemService {
-
+  baseUrl = environment.apiUrl;
   private items: Item[] = [];
   private itemUpdated = new Subject<Item[]>();
 
@@ -15,9 +16,9 @@ export class ItemService {
 
   getItems() {
 
-    this.http.get<{message: String, items: any}>('http://localhost:3000/api/item')
+    this.http.get<{message: String, data: { items: any}}>(this.baseUrl + '/item')
       .pipe(map((itemData) => {
-          return itemData.items.map(item => {
+          return itemData.data.items.map(item => {
             return {
               id: item._id,
               title: item.title,
@@ -42,19 +43,19 @@ export class ItemService {
 
   getItem(id: String) {
     return this.http.get<{_id: string, title: string, content: string, date: string, price: string,
-                            start: string, end: string }>('http://localhost:3000/api/item/' + id);
+                            start: string, end: string }>(this.baseUrl + '/item/' + id);
   }
 
   updateItem(id: string,  title: string, content: string, date: string, price: string, start: string, end: string ) {
     const item: Item = { id: id, title: title, content: content, price: price, start: start, end: end, date: date, imagePath: null};
-    this.http.put<{}>('http://localhost:3000/api/item/' + id, item)
+    this.http.put<{}>(this.baseUrl + '/item/' + id, item)
       .subscribe(response => {
         const UpdatedItems = [...this.items];
         const OldItemIndex = UpdatedItems.findIndex(p => p.id === id );
         UpdatedItems[OldItemIndex] = item;
         this.items = UpdatedItems;
         this.itemUpdated.next([...this.items]);
-        this.router.navigate(['/']);
+        this.router.navigate(['/item/items']);
         console.log(response);
       });
   }
@@ -70,14 +71,17 @@ export class ItemService {
     itemData.append('date', date);
     itemData.append('image', image, title);
     console.log(`additem: ${itemData}`);
-    this.http.post<{message: string, item: Item }>('http://localhost:3000/api/item/create', itemData)
+
+    // const item1 = { "item": { title, content, price, start, end, date, "image": image}};
+    this.http.post<{message: string, data: { item: Item} }>(this.baseUrl + '/item/create', itemData ) 
       .subscribe((responseData) => {
-          const item: Item = {id: responseData.item.id, title: title, content: content, date: date, price: price,
-                              start: start, end: end, imagePath: responseData.item.imagePath };
-          console.log(responseData);
+          console.log("date : "+ JSON.stringify(responseData));
+          const item: Item = {id: responseData.data.item.id, title: title, content: content, date: date, price: price,
+                              start: start, end: end, imagePath: responseData.data.item.imagePath };
+         
           this.items.push(item);
           this.itemUpdated.next([...this.items]);
-          this.router.navigate(['/']);
+          this.router.navigate(['/item/items']);
       });
 
 

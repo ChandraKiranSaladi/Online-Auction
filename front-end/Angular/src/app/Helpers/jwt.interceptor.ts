@@ -23,8 +23,8 @@ export class JwtInterceptor implements HttpInterceptor {
       request = request.clone({
         setHeaders: {
           Authorization: `Bearer ${currentUserToken.token}`,
-          // 'Accept-Encoding': 'application/gzip',
-          'Content-Type': 'application/json'
+            'Accept-Encoding': 'application/gzip',
+          // 'Content-Type': 'application/json'
         }
       });
     }
