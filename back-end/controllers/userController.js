@@ -6,6 +6,7 @@ const saltRounds = 10;
 // const verifyToken = require('../auth/VerifyToken');
 const config = require('../config');
 const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
 var signJWT = function (user) {
     return jwt.sign({
@@ -82,7 +83,7 @@ exports.login = (req, res, next) => {
         bcrypt.compare(req.body.password, user.hash, (err, result) => {
             if (result) {
                 var token = signJWT(user);
-                    console.log("user login succesful");
+                console.log("user login succesful");
                 res.status(200).json({
                     status: 'success',
                     message: {
@@ -178,15 +179,15 @@ exports.passwordReset = (req, res, next) => {
         if (err) console.log("crypto error");
     });
 
-    User.find({
-        _id: req.body.email
+    User.findOne({
+        email: req.body.email
     },
         (err, user) => {
             if (err) return res.status(500).json({
                 status: "failed",
-                message: "error on server",
+                message: "Server failure, please try after sometime.",
                 error: {
-                    message: 'Couldn\'t access database for the user'
+                    message: "Server failure, please try after sometime."
                 }
             });
             if (!user) return sendErrorMessage(res, {
@@ -195,7 +196,8 @@ exports.passwordReset = (req, res, next) => {
             console.log("user details found");
             user.resetPasswordToken = randomHash;
             user.resetPasswordExpires = Date.now() + 600; // 5 minutes
-            user.save()
+
+            User.findOneAndUpdate({ email: user.email }, user, { upsert: true })
                 .then((doc) => {
                     console.log("reset token saved");
                 })
@@ -203,37 +205,34 @@ exports.passwordReset = (req, res, next) => {
                     console.log("error " + err);
                 });
 
-            (randomHash, user, done) => {
-                var smtpTransport = nodemailer.createTransport('SMTP', {
-                    service: 'Gmail',
-                    auth: {
-                        user: 'kiran1ck18@gmail.com',
-                        pass: 'myfutureawaits'
-                    }
-                });
-                var mailOptions = {
-                    to: user.email,
-                    from: 'passwordreset@auctioneo.com',
-                    subject: 'Account Password Reset',
-                    text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                        'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-                        'http://' + req.headers.host + '/reset/' + randomHash + '\n\n' +
-                        'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+            var smtpTransport = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'kiran1ck18@gmail.com',
+                    pass: 'myfutureawaits'
+                }
+            });
+            var mailOptions = {
+                to: user.email,
+                from: 'passwordreset@auctioneo.com',
+                subject: 'Account Password Reset',
+                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                    'https://localhost:4200/reset/' + randomHash + '\n\n' +
+                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+            };
+            smtpTransport.sendMail(mailOptions, function (err) {
+                if (err) {
+                    return sendErrorMessage(res, {
+                        mailerror: "mail"
+                    });
                 };
-                smtpTransport.sendMail(mailOptions, function (err) {
-                    if (err) {
-                        return sendErrorMessage(res, {
-                            mailerror: "mail"
-                        });
-                    };
-                    console.log("Email sent");
-
+                console.log("Email sent");
+                return res.status(200).json({
+                    status: "success",
+                    message: "Mail sent to " + user.email,
+                    error: []
                 });
-            }
-            return res.status(200).json({
-                status: "success",
-                message: "Mail sent to " + user.email,
-                error: []
             });
         }
 
@@ -241,58 +240,65 @@ exports.passwordReset = (req, res, next) => {
     // reset link and then updateById.
 }
 
-exports.passwordResetGet = (req,res,next) => {
+exports.passwordResetGet = (req, res, next) => {
     //, resetPasswordExpires: { $gt: Date.now() }
-        User.findOne({ resetPasswordToken: req.params.token }, function(err, user) {
-          if (!user) {
-            return res.status(400).json({
-                status: "failed",
-                message: "Reset link is not valid",
-                error : [{ message: "Password reset token is invalid or has expired"}]
-            });
-          }
-          return res.status(200).json({
-              status: "success",
-              message: "Ok",
-              error: []
-          });
-        });
-
-}
-
-exports.passwordResetPost = (req,res,next) => {
-    //, resetPasswordExpires: { $gt: Date.now() } 
-    User.findOne({ resetPasswordToken: req.params.token }, function(err, user) {
-        console.log("postreset: "+err);
+    User.findOne({ resetPasswordToken: req.params.token }, function (err, user) {
         if (!user) {
             return res.status(400).json({
                 status: "failed",
                 message: "Reset link is not valid",
-                error : [{ message: "Password reset token is invalid or has expired"}]
+                error: [{ message: "Password reset token is invalid or has expired" }]
+            });
+        }
+        return res.status(200).json({
+            status: "success",
+            message: "Ok",
+            error: []
+        });
+    });
+
+}
+
+exports.passwordResetPost = (req, res, next) => {
+    //, resetPasswordExpires: { $gt: Date.now() } 
+    User.findOne({ resetPasswordToken: req.params.token }, function (err, user) {
+        console.log("postreset: " + err);
+        if (!user) {
+            return res.status(400).json({
+                status: "failed",
+                message: "Reset link is not valid",
+                error: [{ message: "Password reset token is invalid or has expired" }]
             });
         }
 
-        user.password = req.body.password;
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpires = undefined;
-
-        user.save((err) => {
-            if(err) {
-                console.log("error in resetpasswordpost");
-                res.status(500).json({
-                    status: "failed",
-                    message: "error",
-                    error: [{message: "error occured while changing"}]
-                });
-            }
-            console.log("passsword changed");
-            res.status(201).json({
-                status: "success",
-                message: "Changed",
-                error: []
+        bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+            if (err) return sendErrorMessage(res, {
+                bcrypt: "error"
             });
-        })
+            console.log(req.body);
+
+            user.hash = hash;
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpires = undefined;
+
+            user.save((err) => {
+                if (err) {
+                    console.log("error in resetpasswordpost");
+                    res.status(500).json({
+                        status: "failed",
+                        message: "error",
+                        error: [{ message: "error occured while changing" }]
+                    });
+                }
+                console.log("passsword changed");
+                res.status(201).json({
+                    status: "success",
+                    message: "Changed",
+                    error: []
+                });
+            })
         });
+    });
 }
 // except password update
 exports.update = (req, res, next) => {
@@ -397,7 +403,7 @@ function sendErrorMessage(res, err) {
     if (err.failed) {
         // when credentials provided are incorrect
         console.log("credentials are wrong");
-        return res.status(400).json({
+        return res.status(401).json({
             status: "failed",
             message: "authorization failed",
             error: {
@@ -408,7 +414,7 @@ function sendErrorMessage(res, err) {
     } else if (err.userRegistration) {
         // user already exists 
         console.log("user already exists");
-        return res.status(400).json({
+        return res.status(401).json({
             status: "failed",
             message: "Use another email",
             error: {
@@ -417,8 +423,8 @@ function sendErrorMessage(res, err) {
         });
     } else if (err.noUser) {
         // no user exists 
-        console.log("user already exists");
-        return res.status(400).json({
+        console.log("user does not exist");
+        return res.status(401).json({
             status: "failed",
             message: "login failed",
             error: {
@@ -428,7 +434,7 @@ function sendErrorMessage(res, err) {
     } else if (err.mailerror) {
         // no user exists 
         console.log("smtptransport sendmail error");
-        return res.status(400).json({
+        return res.status(401).json({
             status: "failed",
             message: "password reset failed",
             error: {

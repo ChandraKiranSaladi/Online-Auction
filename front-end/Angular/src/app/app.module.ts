@@ -36,6 +36,7 @@ import { AdminComponent } from './admin/admin.component';
 import { ItemCreateComponent } from './item/item-create/item-create.component';
 import { ItemListComponent } from './item/item-history/item-list.component';
 import { FooterComponent } from './footer/footer.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { FooterComponent } from './footer/footer.component';
     LoginComponent,
     AdminComponent,
     ItemCreateComponent,
-    ItemListComponent
+    ItemListComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

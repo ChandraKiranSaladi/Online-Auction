@@ -25,6 +25,24 @@ export class AuthenticationService {
     return this.currentTokenSubject.value;
   }
 
+  extractTokenInfo(token_str: String): Token {
+    const token = new Token();
+    token.token = token_str;
+
+    const decoded = jwtdecode(token_str);
+
+    if (decoded.exp !== undefined) {
+      const date = new Date(0);
+      date.setUTCSeconds(decoded.exp);
+      token.expires = date;
+    }
+    if (decoded.role !== undefined) {
+      token.role = decoded.role;
+    }
+
+    return token;
+  }
+
   login(email: string, password: string) {
     return this.http.post<any>(this.baseUrl + '/user/login', { email, password })
       .pipe(map(res => {
@@ -59,25 +77,17 @@ export class AuthenticationService {
   forgotPassword(email: String) {
     console.log(email);
     return this.http.post<any>(this.baseUrl + '/user/passwordreset', { email })
-      .pipe(map(res =>  res ));
+      .pipe(map(res => res));
   }
 
-  extractTokenInfo(token_str: String): Token {
-    const token = new Token();
-    token.token = token_str;
+  checkToken(token: string) {
+    return this.http.get(this.baseUrl + "/user/reset/" + token)
+      .pipe(map((res) => { return res['status'] === 'success' }));
+  }
 
-    const decoded = jwtdecode(token_str);
-
-    if (decoded.exp !== undefined) {
-      const date = new Date(0);
-      date.setUTCSeconds(decoded.exp);
-      token.expires = date;
-    }
-    if (decoded.role !== undefined) {
-      token.role = decoded.role;
-    }
-
-    return token;
+  resetToken(token: string, password: string) {
+    return this.http.post(this.baseUrl + "/user/reset/" + token, { "password": password })
+      .pipe(map((res) => { return res }));
   }
 
   logout() {
@@ -106,5 +116,4 @@ export class AuthenticationService {
   isAdmin() {
     return this.isLoggedIn && this.getRole().toLowerCase() === 'admin';
   }
-
 }

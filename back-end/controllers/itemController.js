@@ -35,11 +35,11 @@ exports.getAllItems = (req, res, next) => {
 exports.post = (req, res, next) => {
     // console.log("time here is"+req.body.start)
     // console.log("time moment is "+ moment(req.body.start));
-    const date1 = new Date(req.body.date+ " "+ req.body.start);
-    const date2 = new Date(req.body.date+ " "+ req.body.end);
-    console.log("date1 :"+date1 +" date2: "+date2);
-    console.log("start :"+req.body.start +" end: "+req.body.end);
-    
+    const date1 = new Date(req.body.date + " " + req.body.start);
+    const date2 = new Date(req.body.date + " " + req.body.end);
+    console.log("date1 :" + date1 + " date2: " + date2);
+    console.log("start :" + req.body.start + " end: " + req.body.end);
+
     const url = req.protocol + '://' + req.get("host");
     const date = new Date(req.body.date);
     const item = new Item({
@@ -49,7 +49,7 @@ exports.post = (req, res, next) => {
         date: date,
         time: {
             start: date1,
-            end:  date2
+            end: date2
         },
         userId: req.userId,
         imagePath: url + "/images/" + req.file.filename
@@ -70,8 +70,8 @@ exports.post = (req, res, next) => {
             });
 
             Schedule.findOneAndUpdate({
-                    date: schedule.date
-                }, {
+                date: schedule.date
+            }, {
                     $push: {
                         items: {
                             itemId: result._id
@@ -118,7 +118,7 @@ exports.post = (req, res, next) => {
                         items.push({
                             itemId: result._id
                         });
-                        Schedule.update({ items: items}, 
+                        Schedule.update({ items: items },
                             (err, item) => {
                                 if (err) return res.status(500).json({
                                     status: "failed",
@@ -184,8 +184,8 @@ exports.updateById = (req, res, next) => {
     // update item
     console.log(JSON.stringify(req.body.item));
 
-    const date1 = new Date(req.body.date+ " "+ req.body.start);
-    const date2 = new Date(req.body.date+ " "+ req.body.end);
+    const date1 = new Date(req.body.date + " " + req.body.start);
+    const date2 = new Date(req.body.date + " " + req.body.end);
     const item = new Item({
         title: req.body.title,
         content: req.body.content,
@@ -193,15 +193,15 @@ exports.updateById = (req, res, next) => {
         date: req.body.date,
         time: {
             start: date1,
-            end:  date2
+            end: date2
         },
         userId: req.userId,
         imagePath: url + "/images/" + req.file.filename
 
     });
     Item.update({
-            _id: req.params.itemId
-        }, req.body.item,
+        _id: req.params.itemId
+    }, req.body.item,
         (err, item) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -230,8 +230,8 @@ exports.updateById = (req, res, next) => {
 exports.getById = (req, res, next) => {
     // update item
     Item.findOne({
-            _id: req.params.itemId
-        }, req.body.item,
+        _id: req.params.itemId
+    }, req.body.item,
         (err, item) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -262,14 +262,14 @@ exports.deleteById = (req, res, next) => {
 
     Item.delete({
         _id: req.params.id
-      })
-      .then(result => {
-        console.log(result);
-        return res.status(200).json({
-            status: "success",
-            message: "details deleted",
-            data: item,
-            error: []
-        });
-      })
+    })
+        .then(result => {
+            console.log(result);
+            return res.status(200).json({
+                status: "success",
+                message: "details deleted",
+                data: item,
+                error: []
+            });
+        })
 };
