@@ -16,7 +16,7 @@
 
     <mat-action-row>
       <a mat-button [routerLink]="['/edit',item.id]" color="accent">EDIT</a>
-      <a mat-button color="warn">DELETE</a>
+      <a mat-button [routerLink]="['/delete',item.id]" color="warn">DELETE</a>
     </mat-action-row>
   </mat-expansion-panel>
 

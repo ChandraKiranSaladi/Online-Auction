@@ -7,3 +7,6 @@ node_modules
 # Ignoring log files
 micro-service/*.log
 back-end/*.log
+
+#Ignoring images
+back-end/images/*

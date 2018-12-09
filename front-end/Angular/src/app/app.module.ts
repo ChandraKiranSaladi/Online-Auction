@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {MatSelectModule} from '@angular/material/select';
 import * as moment from 'moment';
 
 import {
@@ -66,6 +67,7 @@ import { FooterComponent } from './footer/footer.component';
     MatTabsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
     HttpClientModule
   ],
   providers: [

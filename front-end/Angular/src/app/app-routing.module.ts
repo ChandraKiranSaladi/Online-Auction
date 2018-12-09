@@ -15,6 +15,8 @@ const routes: Routes = [
   { path:  'item', component: ItemListComponent},
   { path:  'item/create', component: ItemCreateComponent},
   { path:   'item/items' , component: ItemListComponent },
+  { path: 'edit/:itemId', component: ItemCreateComponent },
+  { path: 'delete/:itemId', component: ItemCreateComponent },
 
   { path: '**', redirectTo: '' }
   // { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { expectedRole: ['Admin'] } }

@@ -4,7 +4,7 @@ const verifyToken = require('../auth/VerifyToken');
 const router = express.Router();
 
 router.get('/getAll',verifyToken,scheduleController.getAll);
-router.get('/slots',verifyToken,scheduleController.getAvailableSlots);
+router.get('/slots/:date',verifyToken,scheduleController.getAvailableSlots);
 router.post('/create',verifyToken, scheduleController.create);
 router.get('/:itemId',verifyToken,scheduleController.getById);
 router.put('/:itemId',verifyToken,scheduleController.updateById);
