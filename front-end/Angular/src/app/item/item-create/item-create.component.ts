@@ -15,6 +15,9 @@ import { mimeType } from './mime-type.validator';
 
 })
 export class ItemCreateComponent implements OnInit {
+  minDate = new Date();
+  maxDate = new Date(2020, 0, 1);
+  isSlots = false;
   enteredTitle = '';
   enteredContent = '';
   private mode = 'create';
@@ -23,17 +26,19 @@ export class ItemCreateComponent implements OnInit {
   imagePreview: string;
   private itemId = '';
   item: Item;
-
+  slots = [];
   constructor(public itemService: ItemService, public route: ActivatedRoute) {}
 
   ngOnInit() {
     this.form = new FormGroup({
       title: new FormControl(null, { validators: [Validators.required, Validators.minLength(3)]}),
       content: new FormControl(null, {validators: Validators.required}),
-      price: new FormControl(null, {validators: [Validators.required, Validators.min(1)]}),
+      price: new FormControl(null, {validators: [Validators.required, Validators.min(1), Validators.pattern('^[0-9]*$')]}),
       image: new FormControl(null, { validators: [Validators.required], asyncValidators: [mimeType]}),
-      start: new FormControl(null, {validators: [Validators.required, Validators.max(23)]}),
-      end: new FormControl(null, {validators: [Validators.required, Validators.max(23)]}),
+      // start: new FormControl(null, {validators: [Validators.required]}),
+      // end: new FormControl(null, {validators: [Validators.required]}),
+      // time: new FormControl(null, {validators: [Validators.required]}),
+      slot: new FormControl(null, {validators: [Validators.required]}),
       date: new FormControl(null, {validators: Validators.required})
     });
 
@@ -43,24 +48,25 @@ export class ItemCreateComponent implements OnInit {
         this.itemId = paramMap.get('itemId');
         this.isLoading = true;
         this.itemService.getItem(this.itemId).subscribe(itemData => {
+        console.log(JSON.stringify(itemData));
         this.isLoading = false;
         this.item = {
-                    id: itemData._id,
-                    title: itemData.title,
-                    date: itemData.date,
-                    content: itemData.content,
-                    price: itemData.price,
-                    start: itemData.start,
-                    end: itemData.end,
+                    id: itemData.data._id,
+                    title: itemData.data.title,
+                    date: itemData.data.date,
+                    content: itemData.data.content,
+                    price: itemData.data.initialBidPrice,
+                    start: itemData.data.start,
+                    end: itemData.data.end,
                     imagePath: null
                   };
-
+        console.log(JSON.stringify(this.item.title));
         // setValue allows you to set values of all the inputs
         this.form.controls['title'].setValue(this.item.title);
         this.form.controls['content'].setValue(this.item.content);
         this.form.controls['price'].setValue(this.item.price);
-        this.form.controls['start'].setValue(this.item.start);
-        this.form.controls['end'].setValue(this.item.end);
+        // this.form.controls['start'].setValue(this.item.start);
+        // this.form.controls['end'].setValue(this.item.end);
         this.form.controls['date'].setValue(this.item.date);
 
         });
@@ -78,25 +84,27 @@ export class ItemCreateComponent implements OnInit {
       console.log('invalid');
       return;
     }
+    const startTime = this.form.value.slot.split('-')[0];
+    const endTime = this.form.value.slot.split('-')[1];
     this.isLoading = true;
     if (this.mode === 'create') {
       console.log('form.value.title: ' + this.form.value.title );
       console.log('form.value.content: ' + this.form.value.content );
       this.itemService.addItem(this.form.value.title, this.form.value.content,
          moment(this.form.value.date).format('YYYY-MM-DD'),  this.form.value.price,
-                                this.form.value.start, this.form.value.end, this.form.value.image);
+                                startTime, endTime, this.form.value.image);
     } else {
       console.log('form.value.title: ' + this.form.value.title );
       console.log('form.value.content: ' + this.form.value.content );
       this.itemService.updateItem(this.itemId, this.form.value.title, this.form.value.content, this.form.value.price,
-                                  this.form.value.date, this.form.value.start, this.form.value.end);
+                                  this.form.value.date, startTime, endTime, this.form.value.image);
     }
     // this.form.reset();
   }
-//singlesign on, primary seconday, security protocols: saml, openOauth, openId, SSL/tls, memchachong, compression. 
-// general implementation. 20-30 html, 20 xml, 20 serveLets, jsps, 20, webservices, 20 security. 
-// length paper, be specific. to the point. two differences. means two differences. 
-// 1 / 2 questions might be big. 20 minute questions. 
+// singlesign on, primary seconday, security protocols: saml, openOauth, openId, SSL/tls, memchachong, compression.
+// general implementation. 20-30 html, 20 xml, 20 serveLets, jsps, 20, webservices, 20 security.
+// length paper, be specific. to the point. two differences. means two differences.
+// 1 / 2 questions might be big. 20 minute questions.
   OnImagePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
      // patchValue allows to control the value of single input
@@ -110,5 +118,24 @@ export class ItemCreateComponent implements OnInit {
     } ;
     reader.readAsDataURL(file);
   }
+
+  OnDatePicked( event: Event) {
+    const date = (event.target as HTMLInputElement).value;
+    console.log(date);
+    this.itemService.getSlots(moment(date).format('YYYYMMDD'))
+    .subscribe(response => {
+      this.isSlots = true;
+      response.data.forEach(ele => this.slots.push(ele['start'] + '-' + ele['end']));
+      console.log(response);
+    });
+  }
+
+  // OnSlotPicked( event: Event) {
+  //   const slot = (event.target as HTMLInputElement).value;
+  //   console.log(slot);
+  //   // this.form.patchValue({start: slot.start});
+  // }
+
+
 
 }

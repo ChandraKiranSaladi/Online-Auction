@@ -8,8 +8,8 @@ const itemSchema = mongoose.Schema({
     initialBidPrice: { type: Number, required: true},
     date: {type: Date, required: true },
     time: { 
-        start:{ type: Number, required: true},
-        end:{ type: Number, required: true}
+        start:{ type: Date, required: true},
+        end:{ type: Date, required: true}
       },
     created: {
         type: Date,

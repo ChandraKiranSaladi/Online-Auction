@@ -11,7 +11,6 @@ export class ItemService {
   baseUrl = environment.apiUrl;
   private items: Item[] = [];
   private itemUpdated = new Subject<Item[]>();
-
   constructor(private http: HttpClient, private router: Router) {}
 
   getItems() {
@@ -37,13 +36,18 @@ export class ItemService {
       });
   }
 
+  getSlots(date: string) {
+
+    return this.http.get<{status: string, message: string, data: []}>(this.baseUrl + '/schedule/slots/' + date);
+
+  }
   getItemUpdateListener() {
     return this.itemUpdated.asObservable();
   }
 
   getItem(id: String) {
-    return this.http.get<{_id: string, title: string, content: string, date: string, price: string,
-                            start: string, end: string }>(this.baseUrl + '/item/' + id);
+    return this.http.get<{data: {_id: string, title: string, content: string, date: string, initialBidPrice: string,
+                            start: string, end: string} }>(this.baseUrl + '/item/' + id);
   }
 
   updateItem(id: string,  title: string, content: string, date: string, price: string, start: string, end: string ) {
@@ -73,12 +77,12 @@ export class ItemService {
     console.log(`additem: ${itemData}`);
 
     // const item1 = { "item": { title, content, price, start, end, date, "image": image}};
-    this.http.post<{message: string, data: { item: Item} }>(this.baseUrl + '/item/create', itemData ) 
+    this.http.post<{message: string, data: { item: Item} }>(this.baseUrl + '/item/create', itemData )
       .subscribe((responseData) => {
-          console.log("date : "+ JSON.stringify(responseData));
+          console.log('date : ' + JSON.stringify(responseData));
           const item: Item = {id: responseData.data.item.id, title: title, content: content, date: date, price: price,
                               start: start, end: end, imagePath: responseData.data.item.imagePath };
-         
+
           this.items.push(item);
           this.itemUpdated.next([...this.items]);
           this.router.navigate(['/item/items']);

@@ -32,7 +32,8 @@ router.get('/all',verifyToken,itemController.getAllItems);
 
 router.post('/create',verifyToken,multer({storage: storage}).single("image"),itemController.post);
 router.get('/',verifyToken,itemController.getAllUserItems);
-router.put('/:itemId',verifyToken,itemController.updateById);
+router.put('/:itemId',verifyToken,multer({storage: storage}).single("image"),itemController.updateById);
+router.get('/:itemId',verifyToken,itemController.getById);
 router.delete('/:itemId',verifyToken,itemController.deleteById);
 
 module.exports = router;
