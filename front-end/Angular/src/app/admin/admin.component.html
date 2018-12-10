@@ -1,3 +1,46 @@
-<p>
-  admin works!
-</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      Manage Schedule
+    </mat-card-title>
+  </mat-card-header>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+
+  <div class="item-container">
+    <div class="row">
+      <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+    </div>
+    <div class="row">
+      <div *ngIf="message" class="alert alert-primary">{{message}}</div>
+    </div>
+    <form [formGroup]="form" (submit)="OnSaveSchedule()" *ngIf="!isLoading">
+
+      <mat-form-field>
+        <input matInput [min]="minDate" [matDatepicker]="picker" placeholder="Choose a date" (dateInput)="OnDatePicked($event)"
+          (dateChange)="OnDatePicked($event)" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="form.get('date').invalid">Pick a Date</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="datePicked && !message">
+        <input placeholder="Start Time" matInput type="time" formControlName="startTime">
+        <mat-error *ngIf="form.get('startTime').invalid">Pick a start time</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="datePicked && !message">
+        <input placeholder="End Time" matInput type="time" formControlName="endTime">
+        <mat-error *ngIf="form.get('endTime').invalid">Pick a end time</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="datePicked && !message">
+        <input placeholder="Number of Items" matInput type="number" formControlName="numberItems">
+        <mat-error *ngIf="form.get('numberItems').invalid">Pick number of items</mat-error>
+      </mat-form-field>
+
+      <br />
+      <button mat-raised-button color="accent" type="submit">Submit</button>
+
+    </form>
+  </div>
+</mat-card>

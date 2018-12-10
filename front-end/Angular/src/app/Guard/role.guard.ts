@@ -19,7 +19,8 @@ export class RoleGuard implements CanActivate {
     if (!this.authenticationService.isLoggedIn()) {
       this.router.navigate(['/login']);
       return false;
-    } else if (!expectedRole.includes(currentUserRole)) {
+    } else if (!expectedRole.includes(currentUserRole.toLowerCase())) {
+      console.log('Not Admin----');
       this.router.navigate(['/']);
       return false;
     }

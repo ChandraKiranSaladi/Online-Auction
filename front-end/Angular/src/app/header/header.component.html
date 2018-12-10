@@ -9,8 +9,6 @@
 
     <button mat-button *ngIf="isLoggedIn()" (click)="router.navigate(['/item/create'])" ><span><i class="fas fa-plus example-icon"></i>Post</span></button>
 
-    <button mat-button *ngIf="isLoggedIn() && isAdmin()" (click)="router.navigate(['/admin'])"><span><i class="fas fa-users-cog example-icon"></i>Manage
-        Users</span></button>
     <button mat-button *ngIf="isLoggedIn() && isAdmin()" (click)="router.navigate(['/admin'])"><span><i class="fas fa-calendar example-icon"></i>Manage
         Schedule</span></button>
 

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Schedule } from '../models/Schedule';
 
 @Injectable({ providedIn: 'root' })
 export class ItemService {
@@ -70,7 +71,7 @@ export class ItemService {
 
 
     // const item: Item = { id: id, title: title, content: content, initialBidPrice: price, time: { start: start, end: end }, date: date, imagePath: imagePath };
-    this.http.put<{data:any}>(this.baseUrl + '/item/' + id, itemData)
+    this.http.put<{ data: any }>(this.baseUrl + '/item/' + id, itemData)
       .subscribe(response => {
         const UpdatedItems = [...this.items];
         const OldItemIndex = UpdatedItems.findIndex(p => p.id === id);
@@ -121,5 +122,15 @@ export class ItemService {
 
   getCurrentBid(itemId: string) {
     return this.http.get(this.baseUrl + "/item/currentBid/" + itemId);
+  }
+
+  getItemsByDate(date: string) {
+    return this.http.get(this.baseUrl + '/item/itemsByDate/' + date);
+  }
+
+  createSchedule(schedule: Schedule) {
+    return this.http.post(this.baseUrl + "/schedule/create", { schedule: schedule }).pipe(
+      map(res => { return res['status'] === "success" })
+    );
   }
 }

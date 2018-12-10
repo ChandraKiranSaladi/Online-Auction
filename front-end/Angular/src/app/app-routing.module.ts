@@ -8,20 +8,21 @@ import { ItemCreateComponent } from './item/item-create/item-create.component';
 import { ItemListComponent } from './item/item-history/item-list.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AdminComponent } from './admin/admin.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'reset/:token', component: ResetPasswordComponent},
+  { path: 'reset/:token', component: ResetPasswordComponent },
 
   { path: 'profile', component: ItemListComponent, canActivate: [AuthGuard] },
 
   { path: 'item', component: ItemListComponent },
   { path: 'item/create', component: ItemCreateComponent },
   { path: 'edit/:itemId', component: ItemCreateComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { expectedRole: ['admin'] } },
 
   { path: '**', redirectTo: '' }
-  // { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { expectedRole: ['Admin'] } }
 ];
 
 @NgModule({

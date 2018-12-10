@@ -30,11 +30,11 @@ exports.getAvailableSlots = (req, res, next) => {
     console.log(moment.utc(req.params.date, "YYYYMMDD").toString());
 
     Schedule.findOne({
-            date: {
-                // $eq: new Date(moment.utc(req.params.date, "YYYYMMDD"))
-                $eq: moment(req.params.date, "YYYYMMDD")
-            }
-        },
+        date: {
+            // $eq: new Date(moment.utc(req.params.date, "YYYYMMDD"))
+            $eq: moment(req.params.date, "YYYYMMDD")
+        }
+    },
         (err, sched) => {
             if (err) return res.status(400).json({
                 status: "failed",
@@ -51,7 +51,7 @@ exports.getAvailableSlots = (req, res, next) => {
                     error: []
                 });
             }
-            return someReservedSlots(res,req.params.date);
+            return someReservedSlots(res, req.params.date);
 
         });
 
@@ -63,8 +63,30 @@ exports.getAll = (req, res, next) => {
 };
 
 exports.create = (req, res, next) => {
-    // create schedule in db
-    res.send("dummy");
+    var schedule = new Schedule({
+        items: [],
+        itemNumbers: req.body.schedule.itemNumbers,
+        date: req.body.schedule.date,
+        time: {
+            start: req.body.schedule.time.startTime,
+            end: req.body.schedule.time.endTime
+        }
+    });
+    schedule.save().then((sched) => {
+        return res.status(200).json({
+            message: "Saved successfully.",
+            status: "success",
+            error: {}
+        });
+    }).catch((err) => {
+        return res.status(500).json({
+            message: "Failed to save the schedule.",
+            status: "failed",
+            error: {
+                message: "Failed to save to the database."
+            }
+        })
+    });
 };
 
 exports.getById = (req, res, next) => {
@@ -89,12 +111,14 @@ exports.getCurrentAuctionItem = (req, res, next) => {
     const date = moment(now).format("YYYY-MM-DD");
     const today = new Date(moment(date));
     // , time: { start: { $lte: time }, end: { $gte: time } }
-    Item.find().then(
+    Item.find({}).then(
         items => {
             var item = null;
             for (var i = 0; i < items.length; i++) {
                 var element = items[i];
-                if (new Date(element.date) === today && new Date(element.time.start) <= now && new Date(element.time.end) >= now) {
+                if (moment(new Date(element.date)).isSame(moment(today)) &&
+                    moment(element.time.start, "HH:mm:ss").isSameOrBefore(moment(now)) &&
+                    moment(element.time.end, "HH:mm:ss").isSameOrAfter(moment(now))) {
                     item = element;
                     break;
                 }
@@ -124,7 +148,7 @@ exports.getCurrentAuctionItem = (req, res, next) => {
 
 // Custom Functions 
 
-function someReservedSlots(res,date) {
+function someReservedSlots(res, date) {
 
     var def = [{
         start: "8:00:00",
@@ -141,8 +165,8 @@ function someReservedSlots(res,date) {
     }];
 
     Schedule.findOne({
-            date: moment(date, "YYYYMMDD")
-        },
+        date: moment(date, "YYYYMMDD")
+    },
         (err, sched) => {
             if (err) return res.status(404).json({
                 status: "failed",
@@ -179,7 +203,7 @@ function someReservedSlots(res,date) {
                 // })
 
                 // TODO: Difference in time should be used by date object
-                var time = (moment(sched.time.end,"HH:mm:ss")).diff(moment(sched.time.start,"HH:mm:ss"), 'minutes');
+                var time = (moment(sched.time.end, "HH:mm:ss")).diff(moment(sched.time.start, "HH:mm:ss"), 'minutes');
 
 
                 var slots = getTimeStops(sched.time.start, sched.time.end, sched.itemNumbers)
@@ -191,7 +215,7 @@ function someReservedSlots(res,date) {
 
                     for (var j = 0; j < slots.length; j++) {
 
-                        if (slots[j].start === moment(start,"HH:mm:ss").format("HH:mm:ss"))
+                        if (slots[j].start === moment(start, "HH:mm:ss").format("HH:mm:ss"))
                             slots.splice(j, 1);
                     }
 

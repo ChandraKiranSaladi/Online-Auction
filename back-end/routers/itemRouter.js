@@ -26,6 +26,8 @@ const storage = multer.diskStorage({
   }
 });
 
+router.get('/itemsByDate/:date', itemController.getItemsByDate);
+
 router.get('/currentBid/:itemId', itemController.getCurrentBidByItemId);
 
 // add admin route to all items

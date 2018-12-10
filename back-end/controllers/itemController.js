@@ -369,3 +369,25 @@ exports.getCurrentBidByItemId = (req, res, next) => {
         }
     );
 }
+
+exports.getItemsByDate = (req, res, next) => {
+    Item.find({ date: moment(req.params.date, "YYYYMMDD") }).then(
+        (data) => {
+            return res.status(200).json({
+                data: data,
+                status: "success",
+                message: (data.length) ? "Found items for auction on the date." : "No items sechudled for the requested date.",
+                errors: {}
+            })
+        },
+        (err) => {
+            return res.status(404).json({
+                status: "failed",
+                message: "Failed to fetch items.",
+                errors: {
+                    message: "Failed to fetch items for the requested date."
+                }
+            })
+        }
+    )
+}
