@@ -15,8 +15,8 @@ const bidSchema = new mongoose.Schema({
         required: true
     },
     time: {
-        type: Date,
-        default: Date.now
+        type: String,
+        default: new Date().toString()
     }
 });
 

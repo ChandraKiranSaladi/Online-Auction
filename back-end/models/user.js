@@ -23,12 +23,12 @@ const userSchema = new mongoose.Schema({
   },
   role: String,
   created: {
-    type: Date,
-    default: Date.now
+    type: String,
+    default: new Date().toString()
   },
   lastActivity: String,
   resetPasswordToken: String,
-  resetPasswordExpires: Date
+  resetPasswordExpires: String
 });
 
 module.exports = mongoose.model('User', userSchema);

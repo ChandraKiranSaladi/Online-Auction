@@ -7,9 +7,10 @@ import { RoleGuard } from './Guard/role.guard';
 import { ItemCreateComponent } from './item/item-create/item-create.component';
 import { ItemListComponent } from './item/item-history/item-list.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  { path: '', component: UserCreateComponent },
+  { path: '', component: DashboardComponent },
   { path: 'login', component: LoginComponent },
   { path: 'reset/:token', component: ResetPasswordComponent},
 

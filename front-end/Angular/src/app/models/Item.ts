@@ -3,8 +3,10 @@ export class Item {
   title: string;
   content: string;
   date: string;
-  price: string;
-  start: string;
-  end: string;
+  initialBidPrice: string;
+  time: {
+    start: string,
+    end: string
+  }
   imagePath: string;
 }

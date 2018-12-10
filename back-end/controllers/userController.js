@@ -424,7 +424,7 @@ function sendErrorMessage(res, err) {
     } else if (err.noUser) {
         // no user exists 
         console.log("user does not exist");
-        return res.status(401).json({
+        return res.status(404).json({
             status: "failed",
             message: "login failed",
             error: {
@@ -434,7 +434,7 @@ function sendErrorMessage(res, err) {
     } else if (err.mailerror) {
         // no user exists 
         console.log("smtptransport sendmail error");
-        return res.status(401).json({
+        return res.status(404).json({
             status: "failed",
             message: "password reset failed",
             error: {

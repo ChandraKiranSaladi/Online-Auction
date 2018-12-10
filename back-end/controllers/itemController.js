@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Item = require('../models/item');
 const bodyParser = require('body-parser');
 const Schedule = require('../models/schedule');
+const Bids = require('../models/bids');
 const moment = require('moment');
 
 exports.getAllItems = (req, res, next) => {
@@ -35,13 +36,13 @@ exports.getAllItems = (req, res, next) => {
 exports.post = (req, res, next) => {
     // console.log("time here is"+req.body.start)
     // console.log("time moment is "+ moment(req.body.start));
-    const date1 = moment(req.body.start, "hh:mm:ss a");
-    const date2 = moment(req.body.end, "hh:mm:ss a");
+    const date1 = moment(req.body.start, "HH:mm:ss");
+    const date2 = moment(req.body.end, "HH:mm:ss");
     console.log(date1 + " " + date2);
     console.log("start :" + req.body.start + " end: " + req.body.end);
 
     const url = req.protocol + '://' + req.get("host");
-    const date = new Date(req.body.date);
+    const date = moment(req.body.date, 'YYYY-MM-DD');
     console.log(date1);
     const item = new Item({
         title: req.body.title,
@@ -67,12 +68,12 @@ exports.post = (req, res, next) => {
             });
             const schedule = new Schedule({
                 items: temp,
-                date: req.body.date
+                date: moment(req.body.date, 'YYYY-MM-DD')
             });
 
             Schedule.findOneAndUpdate({
-                    date: schedule.date
-                }, {
+                date: schedule.date
+            }, {
                     $push: {
                         items: {
                             itemId: result._id
@@ -120,8 +121,8 @@ exports.post = (req, res, next) => {
                             itemId: result._id
                         });
                         Schedule.update({
-                                items: items
-                            },
+                            items: items
+                        },
                             (err, item) => {
                                 if (err) return res.status(500).json({
                                     status: "failed",
@@ -187,13 +188,15 @@ exports.updateById = (req, res, next) => {
     // update item
     console.log(JSON.stringify(req.body.item));
 
-    const date1 = new Date(req.body.date + " " + req.body.start);
-    const date2 = new Date(req.body.date + " " + req.body.end);
+    const url = req.protocol + '://' + req.get("host");
+
+    const date1 = moment(req.body.start, "HH:mm:ss");
+    const date2 = moment(req.body.end, "HH:mm:ss");
     const item = new Item({
         title: req.body.title,
         content: req.body.content,
         initialBidPrice: req.body.price,
-        date: req.body.date,
+        date: moment(req.body.date, 'YYYY-MM-DD'),
         time: {
             start: date1,
             end: date2
@@ -202,9 +205,9 @@ exports.updateById = (req, res, next) => {
         imagePath: url + "/images/" + req.file.filename
 
     });
-    Item.update({
-            _id: req.params.itemId
-        }, req.body.item,
+    Item.updateOne({
+        _id: req.params.itemId
+    }, req.body.item,
         (err, item) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -233,8 +236,8 @@ exports.updateById = (req, res, next) => {
 exports.getById = (req, res, next) => {
     // update item
     Item.findOne({
-            _id: req.params.itemId
-        }, req.body.item,
+        _id: req.params.itemId
+    }, req.body.item,
         (err, item) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -268,12 +271,12 @@ exports.deleteById = (req, res, next) => {
     }, (err, item) => {
         if (item) {
             Schedule.findOne({
-                    items: {
-                        $elemMatch: {
-                            itemId: "5c0daec97d27765d40a938be"
-                        }
+                items: {
+                    $elemMatch: {
+                        itemId: "5c0daec97d27765d40a938be"
                     }
-                },
+                }
+            },
                 (err, sched) => {
                     if (err) return res.status(500).json({
                         status: "failed",
@@ -299,8 +302,8 @@ exports.deleteById = (req, res, next) => {
                         });
 
                         Item.findOneAndDelete({
-                                _id: req.params.itemId
-                            })
+                            _id: req.params.itemId
+                        })
                             .then(result => {
                                 console.log(result);
 
@@ -335,3 +338,31 @@ exports.deleteById = (req, res, next) => {
         });
     })
 };
+
+// TODO: Test this endpoint
+exports.getCurrentBidByItemId = (req, res, next) => {
+    var itemId = req.params.itemId;
+
+    Bids.findOne({ $query: { itemId: itemId }, $orderby: { time: -1 } }).then(
+        bid => {
+            var message = "Current bid on the Item";
+            if (!item) message = "There are currently zero bids on the item."
+            return res.status(200).json({
+                status: "success",
+                message: message,
+                data: bid,
+                error: {}
+            });
+        }
+    ).catch(
+        err => {
+            return res.status(404).json({
+                status: "failed",
+                message: "Failed to fetch Current bid value on Item",
+                error: {
+                    message: "Failed to fetch Current bid value on Item"
+                }
+            });
+        }
+    );
+}

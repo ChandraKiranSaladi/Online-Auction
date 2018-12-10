@@ -1,28 +1,29 @@
 const mongoose = require('mongoose');
 const Schedule = require('../models/schedule');
 const Item = require('../models/item');
+const moment = require('moment');
 
 exports.getAvailableSlots = (req, res, next) => {
 
     // TODO: Input: Date. Output: Slots. Set a default array with start and times. like 8am to 8:04am for 10 items. 
     // TODO: If already reserved, eliminate that slot and return back. 
     var def = [{
-        start: "8:00:00 am",
-        end: "8:00:59 am"
+        start: "8:00:00",
+        end: "8:00:59"
     }, {
-        start: "8:01:00 am",
-        end: "8:01:59 am"
+        start: "8:01:00",
+        end: "8:01:59"
     }, {
-        start: "8:02:00 am",
-        end: "8:02:59 am"
+        start: "8:02:00",
+        end: "8:02:59"
     }, {
-        start: "8:03:00 am",
-        end: "8:03:59 am"
+        start: "8:03:00",
+        end: "8:03:59"
     }];
 
     Schedule.findOne({
-            date: req.params.id 
-        },
+        date: req.params.id
+    },
         (err, sched) => {
             if (err) return res.status(400).json({
                 status: "failed",
@@ -71,28 +72,69 @@ exports.deleteById = (req, res, next) => {
 };
 
 
+// TODO: Test this endpoint
+exports.getCurrentAuctionItem = (req, res, next) => {
+    const now = new Date();
+    const date = moment(now).format("YYYY-MM-DD");
+    const today = new Date(moment(date));
+    console.log("---" + today);
+
+
+    // , time: { start: { $lte: time }, end: { $gte: time } }
+    Item.find().then(
+        items => {
+            var item = null;
+            for (var i = 0; i < items.length; i++) {
+                var element = items[i];
+                if (new Date(element.date) === today && new Date(element.time.start) <= now && new Date(element.time.end) >= now) {
+                    item = element;
+                    break;
+                }
+            }
+            var message = "Item currently Auctioned";
+            if (!item) message = "No item is auctioned currently"
+            return res.status(200).json({
+                status: "success",
+                message: message,
+                data: item,
+                error: {}
+            });
+        }
+    ).catch(
+        err => {
+            return res.status(404).json({
+                status: "failed",
+                message: "Failed to fetch Current Auction Item",
+                error: {
+                    message: "Failed to fetch Current Auction Item"
+                }
+            });
+        }
+    );
+}
+
 
 // Custom Functions 
 
 function someReservedSlots(date) {
 
     var def = [{
-        start: "8:00:00 am",
-        end: "8:00:59 am"
+        start: "8:00:00",
+        end: "8:00:59"
     }, {
-        start: "8:01:00 am",
-        end: "8:01:59am"
+        start: "8:01:00",
+        end: "8:01:59"
     }, {
-        start: "8:02:00 am",
-        end: "8:02:59am"
+        start: "8:02:00",
+        end: "8:02:59"
     }, {
-        start: "8:03:00 am",
-        end: "8:03:59am"
+        start: "8:03:00",
+        end: "8:03:59"
     }];
 
     Schedule.findOne({
-            date: date
-        },
+        date: date
+    },
         (err, sched) => {
             if (err) return res.status(400).json({
                 status: "failed",

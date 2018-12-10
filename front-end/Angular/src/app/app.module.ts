@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import * as moment from 'moment';
 
 import {
@@ -36,6 +36,7 @@ import { ItemCreateComponent } from './item/item-create/item-create.component';
 import { ItemListComponent } from './item/item-history/item-list.component';
 import { FooterComponent } from './footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     AdminComponent,
     ItemCreateComponent,
     ItemListComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

@@ -23,9 +23,8 @@ export class ItemService {
             title: item.title,
             content: item.content,
             date: item.date,
-            price: item.price,
-            start: item.start,
-            end: item.end,
+            initialBidPrice: item.initialBidPrice,
+            time: { start: item.time.start, end: item.time.end },
             imagePath: item.imagePath
           };
         });
@@ -54,13 +53,29 @@ export class ItemService {
     }>(this.baseUrl + '/item/' + id);
   }
 
-  updateItem(id: string, title: string, content: string, date: string, price: string, start: string, end: string, imagePath: string) {
-    const item: Item = { id: id, title: title, content: content, price: price, start: start, end: end, date: date, imagePath: imagePath };
-    this.http.put<{}>(this.baseUrl + '/item/' + id, item)
+  updateItem(id: string, title: string, content: string, date: string, price: string, start: string, end: string, image: File) {
+
+
+    const itemData = new FormData();
+    itemData.append('id', id);
+    itemData.append('title', title);
+    itemData.append('content', content);
+    itemData.append('price', price);
+    itemData.append('start', start);
+    itemData.append('end', end);
+    itemData.append('date', date);
+    itemData.append('image', image, title);
+    console.log(`updateItem: ${itemData}`);
+
+
+
+
+    // const item: Item = { id: id, title: title, content: content, initialBidPrice: price, time: { start: start, end: end }, date: date, imagePath: imagePath };
+    this.http.put<{data:any}>(this.baseUrl + '/item/' + id, itemData)
       .subscribe(response => {
         const UpdatedItems = [...this.items];
         const OldItemIndex = UpdatedItems.findIndex(p => p.id === id);
-        UpdatedItems[OldItemIndex] = item;
+        UpdatedItems[OldItemIndex] = response.data;
         this.items = UpdatedItems;
         this.itemUpdated.next([...this.items]);
         this.router.navigate(['/profile']);
@@ -85,8 +100,8 @@ export class ItemService {
       .subscribe((responseData) => {
         console.log('date : ' + JSON.stringify(responseData));
         const item: Item = {
-          id: responseData.data.item.id, title: title, content: content, date: date, price: price,
-          start: start, end: end, imagePath: responseData.data.item.imagePath
+          id: responseData.data.item.id, title: title, content: content, date: date, initialBidPrice: price,
+          time: { start: start, end: end }, imagePath: responseData.data.item.imagePath
         };
 
         this.items.push(item);
@@ -99,5 +114,13 @@ export class ItemService {
 
   deleteItem(id: string) {
     return this.http.delete<{ status: string, message: string, data: [] }>(this.baseUrl + '/item/' + id);
+  }
+
+  getCurrentItem() {
+    return this.http.get(this.baseUrl + "/schedule/getCurrent");
+  }
+
+  getCurrentBid(itemId: string) {
+    return this.http.get(this.baseUrl + "/item/currentBid/" + itemId);
   }
 }

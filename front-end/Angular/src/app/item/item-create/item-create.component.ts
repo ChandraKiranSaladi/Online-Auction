@@ -26,7 +26,7 @@ export class ItemCreateComponent implements OnInit {
   private itemId = "";
   item: Item;
   slots = [];
-  constructor(public itemService: ItemService, public route: ActivatedRoute) {}
+  constructor(public itemService: ItemService, public route: ActivatedRoute) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -65,13 +65,12 @@ export class ItemCreateComponent implements OnInit {
             title: itemData.data.title,
             date: itemData.data.date,
             content: itemData.data.content,
-            price: itemData.data.initialBidPrice,
-            start: itemData.data.start,
-            end: itemData.data.end,
+            initialBidPrice: itemData.data.initialBidPrice,
+            time: { start: itemData.data.start, end: itemData.data.end },
             imagePath: null
           };
 
-          this.selected = this.item.start + "-" + this.item.end;
+          this.selected = this.item.time.start + "-" + this.item.time.end;
 
           this.itemService
             .getSlots(moment(this.item.date).format("YYYYMMDD"))
@@ -87,10 +86,11 @@ export class ItemCreateComponent implements OnInit {
           // setValue allows you to set values of all the inputs
           this.form.controls["title"].setValue(this.item.title);
           this.form.controls["content"].setValue(this.item.content);
-          this.form.controls["price"].setValue(this.item.price);
+          this.form.controls["price"].setValue(this.item.initialBidPrice);
           // this.form.controls['start'].setValue(this.item.start);
           // this.form.controls['end'].setValue(this.item.end);
-          this.form.controls["date"].setValue(this.item.date);
+          this.form.controls["date"].setValue(new Date(this.item.date));
+          this.form.controls["slot"].setValue(this.selected);
         });
       } else {
         this.mode = "create";
@@ -165,7 +165,7 @@ export class ItemCreateComponent implements OnInit {
         response.data.forEach(ele =>
           this.slots.push(ele["start"] + "-" + ele["end"])
         );
-        console.log("--------------",this.slots);
+        console.log("--------------", this.slots);
       });
   }
 

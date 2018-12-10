@@ -21,10 +21,10 @@ app.use(bodyParser.urlencoded({
   limit: '50mb',
   extended: true
 }));
-app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 // very useful to expose one folder to the world
-app.use("/images",express.static(path.join(__dirname, "/images")));
+app.use("/images", express.static(path.join(__dirname, "/images")));
 
 app.use(Compression());
 app.use(helmet());
@@ -42,15 +42,15 @@ app.use((req, res, next) => {
 mongoose.connect(mongooseURI, {
   useNewUrlParser: true
 })
-.then(() => {
-  console.log("Connected to database at 27017");
-})
-.catch(() => {
-  console.log("Connection failed");
-});
+  .then(() => {
+    console.log("Connected to database at 27017");
+  })
+  .catch(() => {
+    console.log("Connection failed");
+  });
 
-app.use('/api/user',userRouter);
-app.use('/api/item',itemRouter);
-app.use('/api/schedule',scheduleRouter);
+app.use('/api/user', userRouter);
+app.use('/api/item', itemRouter);
+app.use('/api/schedule', scheduleRouter);
 
 module.exports = app;

@@ -59,9 +59,9 @@
         </div>
         <p>{{ item.content }}</p>
         <p>{{ item.date }}</p>
-        <p>{{ item.price }}</p>
-        <p>{{ item.start }}</p>
-        <p>{{ item.end }}</p>
+        <p>{{ item.initialBidPrice }}</p>
+        <p>{{ item.time.start }}</p>
+        <p>{{ item.time.end }}</p>
 
         <mat-action-row>
           <a mat-button [routerLink]="['/edit',item.id]" color="accent">EDIT</a>

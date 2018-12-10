@@ -4,36 +4,37 @@ const itemController = require('../controllers/itemController');
 const multer = require('multer');
 const verifyToken = require('../auth/VerifyToken');
 const MIME_TYPE_MAP = {
-    'image/jpg': 'jpg',
-    'image/jpeg': 'jpg',
-    'image/png': 'png'
+  'image/jpg': 'jpg',
+  'image/jpeg': 'jpg',
+  'image/png': 'png'
 }
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      const isValid = MIME_TYPE_MAP[file.mimetype];
-      console.log("mime-type: " + file.mimetype);
-      let error = new Error("invalid mime type");
-      if(isValid){
-        error = null;
-      }
-      cb(error, "images");
-    },
-    filename: (req, file, cb) => {
-      const name = file.originalname.toLowerCase().split(' ').join('-');
-      const ext = MIME_TYPE_MAP[file.mimetype];
-      cb(null,name+'-'+Date.now()+'.' +ext);
+  destination: (req, file, cb) => {
+    const isValid = MIME_TYPE_MAP[file.mimetype];
+    console.log("mime-type: " + file.mimetype);
+    let error = new Error("invalid mime type");
+    if (isValid) {
+      error = null;
     }
-  });
+    cb(error, "images");
+  },
+  filename: (req, file, cb) => {
+    const name = file.originalname.toLowerCase().split(' ').join('-');
+    const ext = MIME_TYPE_MAP[file.mimetype];
+    cb(null, name + '-' + Date.now() + '.' + ext);
+  }
+});
 
+router.get('/currentBid/:itemId', itemController.getCurrentBidByItemId);
 
 // add admin route to all items
-router.get('/all',verifyToken,itemController.getAllItems);
+router.get('/all', verifyToken, itemController.getAllItems);
 
-router.post('/create',verifyToken,multer({storage: storage}).single("image"),itemController.post);
-router.get('/',verifyToken,itemController.getAllUserItems);
-router.put('/:itemId',verifyToken,multer({storage: storage}).single("image"),itemController.updateById);
-router.get('/:itemId',verifyToken,itemController.getById);
-router.delete('/:itemId',verifyToken,itemController.deleteById);
+router.post('/create', verifyToken, multer({ storage: storage }).single("image"), itemController.post);
+router.get('/', verifyToken, itemController.getAllUserItems);
+router.put('/:itemId', verifyToken, multer({ storage: storage }).single("image"), itemController.updateById);
+router.get('/:itemId', verifyToken, itemController.getById);
+router.delete('/:itemId', verifyToken, itemController.deleteById);
 
 module.exports = router;
