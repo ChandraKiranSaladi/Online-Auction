@@ -63,7 +63,7 @@ export class ItemService {
         UpdatedItems[OldItemIndex] = item;
         this.items = UpdatedItems;
         this.itemUpdated.next([...this.items]);
-        this.router.navigate(['/item/items']);
+        this.router.navigate(['/profile']);
         console.log(response);
       });
   }
@@ -91,9 +91,13 @@ export class ItemService {
 
         this.items.push(item);
         this.itemUpdated.next([...this.items]);
-        this.router.navigate(['/item/items']);
+        this.router.navigate(['/profile']);
       });
 
 
+  }
+
+  deleteItem(id: string) {
+    return this.http.delete<{ status: string, message: string, data: [] }>(this.baseUrl + '/item/delete' + id);
   }
 }

@@ -1,24 +1,72 @@
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion multi="true" *ngIf="items.length > 0  && !isLoading" >
 
-  <mat-expansion-panel *ngFor="let item of items">
-    <mat-expansion-panel-header >
-      {{ item.title }}
-    </mat-expansion-panel-header>
-    <div class="item-image">
-      <img [src]="item.imagePath" [alt]="item.title">
-    </div>
-    <p>{{ item.content }}</p>
-    <p>{{ item.date }}</p>
-    <p>{{ item.price }}</p>
-    <p>{{ item.start }}</p>
-    <p>{{ item.end }}</p>
+<div class="row">
+  <div class="col-md-3">
+    <br />
+    <mat-spinner *ngIf="profileLoading"></mat-spinner>
+    <mat-card *ngIf="!profileLoading">
+      <mat-card-title>
+        {{user.email.split('@')[0]}}
+        <button mat-button *ngIf="!isEdit" (click)="isEdit=!isEdit" style="float: right"><i class="far fa-edit"></i></button>
+      </mat-card-title>
+      <mat-card-subtitle *ngIf="isAdmin">Admin</mat-card-subtitle>
+      <div *ngIf="!isEdit">
+        <mat-card-content>
+          First Name:
+          <span>{{user.name.firstname}}</span>
+        </mat-card-content>
+        <mat-card-content>
+          Last Name:
+          <span>{{user.name.lastname}}</span>
+        </mat-card-content>
+      </div>
 
-    <mat-action-row>
-      <a mat-button [routerLink]="['/edit',item.id]" color="accent">EDIT</a>
-      <a mat-button [routerLink]="['/delete',item.id]" color="warn">DELETE</a>
-    </mat-action-row>
-  </mat-expansion-panel>
+      <form *ngIf="isEdit" class="example-form">
+        <mat-form-field class="example-full-width">
+          <input matInput name="firstname" placeholder="First name" [(ngModel)]="user.name.firstname">
+        </mat-form-field>
 
-</mat-accordion>
-<p  class="info-text mat-body-1" *ngIf="items.length <= 0 && !isLoading">No items Added Yet!</p>
+        <mat-form-field class="example-full-width">
+          <input matInput name="lastname" placeholder="Last name" [(ngModel)]="user.name.lastname">
+        </mat-form-field>
+        <br />
+        <div class="row">
+          <div class="col-md-6"></div>
+          <div class="col-md-4">
+            <button name="submitBtn" *ngIf="isEdit" mat-raised-button (click)="saveProfile()">Save</button>
+          </div>
+        </div>
+      </form>
+
+    </mat-card>
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-8">
+    <h3>Item history</h3>
+    <mat-accordion multi="true" *ngIf="items.length > 0  && !isLoading">
+
+
+      <mat-expansion-panel *ngFor="let item of items">
+        <mat-expansion-panel-header>
+          {{ item.title }}
+        </mat-expansion-panel-header>
+        <div class="item-image">
+          <img [src]="item.imagePath" [alt]="item.title">
+        </div>
+        <p>{{ item.content }}</p>
+        <p>{{ item.date }}</p>
+        <p>{{ item.price }}</p>
+        <p>{{ item.start }}</p>
+        <p>{{ item.end }}</p>
+
+        <mat-action-row>
+          <a mat-button [routerLink]="['/edit',item.id]" color="accent">EDIT</a>
+          <a mat-button (click)="deleteItem(item.id)" color="warn">DELETE</a>
+        </mat-action-row>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+    <p class="info-text mat-body-1" *ngIf="items.length <= 0 && !isLoading">No items Added Yet!</p>
+
+  </div>
+</div>
