@@ -98,6 +98,6 @@ export class ItemService {
   }
 
   deleteItem(id: string) {
-    return this.http.delete<{ status: string, message: string, data: [] }>(this.baseUrl + '/item/delete' + id);
+    return this.http.delete<{ status: string, message: string, data: [] }>(this.baseUrl + '/item/' + id);
   }
 }

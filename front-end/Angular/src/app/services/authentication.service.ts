@@ -81,12 +81,12 @@ export class AuthenticationService {
   }
 
   checkToken(token: string) {
-    return this.http.get(this.baseUrl + "/user/reset/" + token)
+    return this.http.get(this.baseUrl + '/user/reset/' + token)
       .pipe(map((res) => { return res['status'] === 'success' }));
   }
 
   resetToken(token: string, password: string) {
-    return this.http.post(this.baseUrl + "/user/reset/" + token, { "password": password })
+    return this.http.post(this.baseUrl + '/user/reset/' + token, { 'password': password })
       .pipe(map((res) => { return res }));
   }
 

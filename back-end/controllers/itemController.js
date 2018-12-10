@@ -35,9 +35,9 @@ exports.getAllItems = (req, res, next) => {
 exports.post = (req, res, next) => {
     // console.log("time here is"+req.body.start)
     // console.log("time moment is "+ moment(req.body.start));
-    const date1 = moment(req.body.start,"hh:mm:ss a");
-    const date2 = moment(req.body.end,"hh:mm:ss a");
-    console.log(date1 + " "+ date2);
+    const date1 = moment(req.body.start, "hh:mm:ss a");
+    const date2 = moment(req.body.end, "hh:mm:ss a");
+    console.log(date1 + " " + date2);
     console.log("start :" + req.body.start + " end: " + req.body.end);
 
     const url = req.protocol + '://' + req.get("host");
@@ -71,8 +71,8 @@ exports.post = (req, res, next) => {
             });
 
             Schedule.findOneAndUpdate({
-                date: schedule.date
-            }, {
+                    date: schedule.date
+                }, {
                     $push: {
                         items: {
                             itemId: result._id
@@ -119,7 +119,9 @@ exports.post = (req, res, next) => {
                         items.push({
                             itemId: result._id
                         });
-                        Schedule.update({ items: items },
+                        Schedule.update({
+                                items: items
+                            },
                             (err, item) => {
                                 if (err) return res.status(500).json({
                                     status: "failed",
@@ -201,8 +203,8 @@ exports.updateById = (req, res, next) => {
 
     });
     Item.update({
-        _id: req.params.itemId
-    }, req.body.item,
+            _id: req.params.itemId
+        }, req.body.item,
         (err, item) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -231,8 +233,8 @@ exports.updateById = (req, res, next) => {
 exports.getById = (req, res, next) => {
     // update item
     Item.findOne({
-        _id: req.params.itemId
-    }, req.body.item,
+            _id: req.params.itemId
+        }, req.body.item,
         (err, item) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -261,16 +263,75 @@ exports.getById = (req, res, next) => {
 exports.deleteById = (req, res, next) => {
     // delete item
 
-    Item.delete({
-        _id: req.params.id
+    Item.findOne({
+        _id: req.params.itemId
+    }, (err, item) => {
+        if (item) {
+            Schedule.findOne({
+                    items: {
+                        $elemMatch: {
+                            itemId: "5c0daec97d27765d40a938be"
+                        }
+                    }
+                },
+                (err, sched) => {
+                    if (err) return res.status(500).json({
+                        status: "failed",
+                        message: "Failed to delete item",
+                        data: item,
+                        error: []
+                    });
+                    sched.items.forEach(element => {
+                        if (element.itemId === item._id)
+                            sched.items.splice(sched.items.indexOf(element), 1);
+                    });
+
+                    Schedule.updateOne({
+                        _id: sched._id
+                    }, sched, (err, temp) => {
+                        if (err) return res.status(500).json({
+                            status: "failed",
+                            message: "Failed to delete item",
+                            data: item,
+                            error: [{
+                                message: "Failed to delete Item"
+                            }]
+                        });
+
+                        Item.findOneAndDelete({
+                                _id: req.params.itemId
+                            })
+                            .then(result => {
+                                console.log(result);
+
+                                // { items: { $elemMatch: { itemId: "5c0daec97d27765d40a938be" } } }
+
+                                return res.status(200).json({
+                                    status: "success",
+                                    message: "details deleted",
+                                    data: item,
+                                    error: []
+                                });
+                            })
+                            .catch(err => {
+                                return res.status(500).json({
+                                    status: "failed",
+                                    message: "Failed to delete item",
+                                    data: item,
+                                    error: [{
+                                        message: "Failed to delete Item"
+                                    }]
+                                });
+                            });
+                    })
+                });
+        } else return res.status(404).json({
+            status: "failed",
+            message: "Failed to delete item",
+            data: item,
+            error: [{
+                message: "Item doesn't exist"
+            }]
+        });
     })
-        .then(result => {
-            console.log(result);
-            return res.status(200).json({
-                status: "success",
-                message: "details deleted",
-                data: item,
-                error: []
-            });
-        })
 };

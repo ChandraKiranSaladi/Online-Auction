@@ -42,7 +42,7 @@
     </mat-form-field> -->
 
     <mat-form-field *ngIf = "isSlots">
-      <mat-select placeholder="Available Slots" formControlName="slot" >
+      <mat-select placeholder="Available Slots" formControlName="slot" [(value)]= "selected" >
         <mat-option *ngFor="let slot of slots" [value] = "slot">
           {{slot}}
         </mat-option>
