@@ -127,8 +127,8 @@ export class ItemCreateComponent implements OnInit {
         this.itemId,
         this.form.value.title,
         this.form.value.content,
+        moment(this.form.value.date).format("YYYY-MM-DD"),
         this.form.value.price,
-        this.form.value.date,
         startTime,
         endTime,
         this.form.value.image

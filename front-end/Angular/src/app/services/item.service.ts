@@ -55,9 +55,8 @@ export class ItemService {
 
   updateItem(id: string, title: string, content: string, date: string, price: string, start: string, end: string, image: File) {
 
-
     const itemData = new FormData();
-    itemData.append('id', id);
+    itemData.append('id',id);
     itemData.append('title', title);
     itemData.append('content', content);
     itemData.append('price', price);

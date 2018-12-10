@@ -36,8 +36,8 @@ exports.getAllItems = (req, res, next) => {
 exports.post = (req, res, next) => {
     // console.log("time here is"+req.body.start)
     // console.log("time moment is "+ moment(req.body.start));
-    const date1 = moment(req.body.start, "HH:mm:ss");
-    const date2 = moment(req.body.end, "HH:mm:ss");
+    const date1 = moment(req.body.start,"HH:mm:ss").format("HH:mm:ss");
+    const date2 = moment(req.body.end,"HH:mm:ss").format("HH:mm:ss");
     console.log(date1 + " " + date2);
     console.log("start :" + req.body.start + " end: " + req.body.end);
 
@@ -135,6 +135,9 @@ exports.post = (req, res, next) => {
                         return res.status(200).json({
                             status: "success",
                             message: "Post Item registered",
+                            data: {
+                                "item": result
+                            },
                             error: []
                         })
                     }
@@ -186,17 +189,16 @@ exports.getAllUserItems = (req, res, next) => {
 
 exports.updateById = (req, res, next) => {
     // update item
-    console.log(JSON.stringify(req.body.item));
 
     const url = req.protocol + '://' + req.get("host");
 
-    const date1 = moment(req.body.start, "HH:mm:ss");
-    const date2 = moment(req.body.end, "HH:mm:ss");
-    const item = new Item({
+    const date1 = moment(req.body.start, "HH:mm:ss").format("HH:mm:ss");
+    const date2 = moment(req.body.end, "HH:mm:ss").format("HH:mm:ss");
+    const item = {
         title: req.body.title,
         content: req.body.content,
         initialBidPrice: req.body.price,
-        date: moment(req.body.date, 'YYYY-MM-DD'),
+        date: moment(req.body.date, 'YYYY-MM-DD').toString(),
         time: {
             start: date1,
             end: date2
@@ -204,10 +206,11 @@ exports.updateById = (req, res, next) => {
         userId: req.userId,
         imagePath: url + "/images/" + req.file.filename
 
-    });
-    Item.updateOne({
+    };
+    console.log("______"+JSON.stringify(item));
+    Item.findOneAndUpdate({
         _id: req.params.itemId
-    }, req.body.item,
+    }, item,
         (err, item) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -273,7 +276,7 @@ exports.deleteById = (req, res, next) => {
             Schedule.findOne({
                 items: {
                     $elemMatch: {
-                        itemId: "5c0daec97d27765d40a938be"
+                        itemId: req.params.itemId
                     }
                 }
             },

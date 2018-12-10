@@ -20,10 +20,21 @@ exports.getAvailableSlots = (req, res, next) => {
         start: "8:03:00",
         end: "8:03:59"
     }];
+    // console.log(moment(req.params.date, "YYYYMMDD").toISOString());
+
+    // console.log(new Date(moment.utc(moment(new Date()).format("YYYYMMDD"),"YYYYMMDD")));
+    console.log(moment(req.params.date, "YYYYMMDD").toDate().toString());
+    console.log(moment(req.params.date, "YYYYMMDD").toLocaleString());
+    console.log(moment(req.params.date, "YYYYMMDD"));
+    console.log(moment.utc(req.params.date, "YYYYMMDD"));
+    console.log(moment.utc(req.params.date, "YYYYMMDD").toString());
 
     Schedule.findOne({
-        date: req.params.id
-    },
+            date: {
+                // $eq: new Date(moment.utc(req.params.date, "YYYYMMDD"))
+                $eq: moment(req.params.date, "YYYYMMDD")
+            }
+        },
         (err, sched) => {
             if (err) return res.status(400).json({
                 status: "failed",
@@ -40,7 +51,7 @@ exports.getAvailableSlots = (req, res, next) => {
                     error: []
                 });
             }
-            return someReservedSlots(req.body.date);
+            return someReservedSlots(res,req.params.date);
 
         });
 
@@ -77,9 +88,6 @@ exports.getCurrentAuctionItem = (req, res, next) => {
     const now = new Date();
     const date = moment(now).format("YYYY-MM-DD");
     const today = new Date(moment(date));
-    console.log("---" + today);
-
-
     // , time: { start: { $lte: time }, end: { $gte: time } }
     Item.find().then(
         items => {
@@ -116,7 +124,7 @@ exports.getCurrentAuctionItem = (req, res, next) => {
 
 // Custom Functions 
 
-function someReservedSlots(date) {
+function someReservedSlots(res,date) {
 
     var def = [{
         start: "8:00:00",
@@ -133,10 +141,10 @@ function someReservedSlots(date) {
     }];
 
     Schedule.findOne({
-        date: date
-    },
+            date: moment(date, "YYYYMMDD")
+        },
         (err, sched) => {
-            if (err) return res.status(400).json({
+            if (err) return res.status(404).json({
                 status: "failed",
                 message: "error getting available slots",
                 error: {
@@ -144,14 +152,17 @@ function someReservedSlots(date) {
                 }
             });
 
-            const itemsOnThisDay = sched.items;
+            var items = [];
+            sched.items.forEach(ele => items.push(ele.itemId));
 
             Item.find({
-                // '_id' : { $in : items }
-                '_id': items.itemId
+                '_id': {
+                    $in: items
+                }
+                // '_id': items.itemId
             }, function (err, docs) {
                 console.log("docs: " + docs);
-                if (err) return res.status(400).json({
+                if (err) return res.status(404).json({
                     status: "failed",
                     message: "error getting available slots",
                     error: {
@@ -167,13 +178,21 @@ function someReservedSlots(date) {
                 //     })
                 // })
 
+                // TODO: Difference in time should be used by date object
+                var time = (moment(sched.time.end,"HH:mm:ss")).diff(moment(sched.time.start,"HH:mm:ss"), 'minutes');
+
+
+                var slots = getTimeStops(sched.time.start, sched.time.end, sched.itemNumbers)
+
+
+
                 for (var i = 0; i < docs.length; i++) {
                     const start = docs[i].time.start;
 
-                    for (var j = 0; j < def.length; j++) {
+                    for (var j = 0; j < slots.length; j++) {
 
-                        if (def[j].start === start)
-                            delete def[j];
+                        if (slots[j].start === moment(start,"HH:mm:ss").format("HH:mm:ss"))
+                            slots.splice(j, 1);
                     }
 
                 }
@@ -182,9 +201,29 @@ function someReservedSlots(date) {
                     status: "success",
                     message: "available slots",
                     error: [],
-                    data: def
+                    data: slots
                 });
 
             });
         });
+}
+
+function getTimeStops(start, end, itemNumbers) {
+    var startTime = moment(start, 'HH:mm');
+    var endTime = moment(end, 'HH:mm');
+
+    var time = endTime.diff(startTime, 'minutes');
+    var timePerSlot = time / itemNumbers;
+
+    var timeStops = [];
+
+    while (startTime < endTime) {
+        // TODO: check if this startTime is startTime of any item
+        timeStops.push({
+            start: new moment(startTime).format('HH:mm:ss'),
+            end: new moment(startTime).add(timePerSlot, 'minutes').add(-1, 'seconds').format('HH:mm:ss')
+        });
+        startTime.add(timePerSlot, 'minutes');
+    }
+    return timeStops;
 }
