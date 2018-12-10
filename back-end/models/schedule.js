@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 
 const scheduleSchema = mongoose.Schema({
 
@@ -6,8 +7,8 @@ const scheduleSchema = mongoose.Schema({
     itemNumbers : { type: Number, default: 4},
     date: { type: Date, required: true, unique: true},
     time: { 
-            start:{ type: Date, default: "8:00:00am"},
-            end:{ type: Date, default: "8:04:00am"}
+            start:{ type: Date, default: moment("8:00:00 am","hh:mm:ss a")},
+            end:{ type: Date, default: moment("8:04:00 am","hh:mm:ss a")}
           },
     slotDuration: { type: Number, default: 1}
 });

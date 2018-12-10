@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({limit: '50mb'}));
 
 // very useful to expose one folder to the world
-app.use("/images",express.static(path.join("back-end/images")));
+app.use("/images",express.static(path.join(__dirname, "back-end/images")));
 
 app.use(Compression());
 app.use(helmet());

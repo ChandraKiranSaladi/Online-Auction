@@ -126,7 +126,7 @@ export class ItemCreateComponent implements OnInit {
     .subscribe(response => {
       this.isSlots = true;
       response.data.forEach(ele => this.slots.push(ele['start'] + '-' + ele['end']));
-      console.log(response);
+      console.log(this.slots);
     });
   }
 

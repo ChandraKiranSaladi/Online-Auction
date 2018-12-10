@@ -35,13 +35,14 @@ exports.getAllItems = (req, res, next) => {
 exports.post = (req, res, next) => {
     // console.log("time here is"+req.body.start)
     // console.log("time moment is "+ moment(req.body.start));
-    const date1 = new Date(req.body.date + " " + req.body.start);
-    const date2 = new Date(req.body.date + " " + req.body.end);
-    console.log("date1 :" + date1 + " date2: " + date2);
+    const date1 = moment(req.body.start,"hh:mm:ss a");
+    const date2 = moment(req.body.end,"hh:mm:ss a");
+    console.log(date1 + " "+ date2);
     console.log("start :" + req.body.start + " end: " + req.body.end);
 
     const url = req.protocol + '://' + req.get("host");
     const date = new Date(req.body.date);
+    console.log(date1);
     const item = new Item({
         title: req.body.title,
         content: req.body.content,
@@ -59,7 +60,7 @@ exports.post = (req, res, next) => {
     // create item in db
     item.save()
         .then((result) => {
-            console.log(result.time.start);
+            // console.log(result.time.start);
             const temp = [];
             temp.push({
                 itemId: result._id
