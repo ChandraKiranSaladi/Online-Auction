@@ -15,6 +15,7 @@ export class ItemListComponent implements OnInit, OnDestroy {
   isEdit = false;
   isAdmin = false;
   error: String = "";
+  message: String = "";
   profileLoading: Boolean = true;
   deleteLoading = false;
 
@@ -26,7 +27,7 @@ export class ItemListComponent implements OnInit, OnDestroy {
     public itemService: ItemService,
     private profileService: ProfileService,
     private authService: AuthenticationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.isLoading = true;
@@ -72,15 +73,23 @@ export class ItemListComponent implements OnInit, OnDestroy {
         this.deleteLoading = false;
       }
     },
-    (err) =>{
-      this.error = "Failed to delete the item";
-      this.deleteLoading = false;
-    }
+      (err) => {
+        this.error = "Failed to delete the item";
+        this.deleteLoading = false;
+      }
     );
   }
 
   updateUserName() {
-    // TODO: Add backend update username API.
     this.isEdit = !this.isEdit;
+    this.profileService.updateUser(this.user).subscribe(
+      (data) => {
+        this.error = "";
+        this.message = "Successfully updated the profile."
+      },
+      (err) => {
+        this.message = "";
+        this.error = "Failed to update the profile."
+      });
   }
 }

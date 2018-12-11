@@ -15,7 +15,7 @@ import { mimeType } from "./mime-type.validator";
 export class ItemCreateComponent implements OnInit {
   selected = '';
   minDate = new Date();
-  maxDate = new Date(2020, 0, 1);
+  maxDate = moment().add(30,'days').toDate();
   isSlots = false;
   enteredTitle = "";
   enteredContent = "";

@@ -132,3 +132,22 @@ Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED
   bidPrice: 20,
   itemId: '5c0fd12504da95345dee91ea',
   __v: 0 }
+2018-12-11T19:06:27.598Z info: Connected to database at 27017
+2018-12-11T19:06:27.678Z info: Connected to RabbitMQ.
+[*] Waiting for messages in Online-Auction. To exit press CTRL+C
+2018-12-11T19:38:39.029Z info: Received:
+{ _id: 5c10123e334a6f2dc892a492,
+  time: 2018-12-11T06:00:00.000Z,
+  userId: '5c049b8ea114ddb7b01a029a',
+  bidPrice: 15,
+  itemId: '5c101075334a6f2dc892a47e' }
+2018-12-11T19:38:39.071Z info: Saved Object to database. Object:
+{ _id: 5c10123e334a6f2dc892a492,
+  time: 2018-12-11T06:00:00.000Z,
+  userId: '5c049b8ea114ddb7b01a029a',
+  bidPrice: 15,
+  itemId: '5c101075334a6f2dc892a47e',
+  __v: 0 }
+2018-12-11T19:39:27.975Z info: Connected to database at 27017
+2018-12-11T19:39:28.028Z info: Connected to RabbitMQ.
+[*] Waiting for messages in Online-Auction. To exit press CTRL+C

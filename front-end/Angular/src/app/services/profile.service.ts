@@ -14,6 +14,10 @@ export class ProfileService {
 
   getUserDetails() {
     return this.http.get(this.baseUrl + '/user/profile').pipe(
-      map((res: Response) => res ));
+      map((res: Response) => res));
+  }
+
+  updateUser(user: User) {
+    return this.http.put(this.baseUrl + "/user/update", { name: user.name }).pipe(map((res) => { return res["status"] === "success" }));
   }
 }

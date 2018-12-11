@@ -35,18 +35,18 @@ export class SearchComponent implements OnInit {
   error: String = '';
   profileLoading: Boolean = true;
 
-  constructor(private itemService: ItemService) {}
+  constructor(private itemService: ItemService) { }
 
   ngOnInit() {
     // API
 
     this.itemService.getAllItems().subscribe(transformedData => {
-      const temp = transformedData;
-
-      for (let i = 0; i < temp.length; i++) {
-        temp[i].date = moment(temp[i].date).format('YYYY-MM-DD');
-        temp[i].start = moment(temp[i].start).format('HH:mm:ss');
-        temp[i].end = moment(temp[i].end).format('HH:mm:ss');
+      for (let i = 0; i < transformedData.length; i++) {
+        transformedData[i].date = moment(transformedData[i].date).format('YYYY-MM-DD');
+        transformedData[i].time = {
+          start: moment(transformedData[i].start).format('HH:mm:ss'),
+          end: moment(transformedData[i].end).format('HH:mm:ss')
+        }
       }
       this.items = transformedData;
       console.log('Hello', transformedData);
@@ -97,7 +97,7 @@ export class SearchComponent implements OnInit {
     for (let i = 0; i < this.items.length; i++) {
 
       if (this.withinRange(this.items[i].date)) {
-          this.fitems.push(this.items[i]);
+        this.fitems.push(this.items[i]);
       }
     }
     console.log(this.fitems);

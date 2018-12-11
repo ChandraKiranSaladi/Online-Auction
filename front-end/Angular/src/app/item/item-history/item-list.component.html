@@ -1,7 +1,9 @@
 <div class="row">
 	<div *ngIf="error" class="alert alert-danger">{{error}}</div>
 </div>
-
+<div class="row">
+	<div *ngIf="message" class="alert alert-success">{{message}}</div>
+</div>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
 
 <div class="row">

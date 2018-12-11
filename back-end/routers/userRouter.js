@@ -8,7 +8,7 @@ const router = express.Router();
 // router.get('/getAll', verifyToken, checkAdmin, userController.admin_getAllUsers);
 
 router.post('/register', userController.create);
-router.post('/login', userController.login);                // TODO: cache
+router.post('/login', userController.login);
 router.post('/logout', verifyToken, userController.logout);
 router.get('/profile', verifyToken, userController.profile); 
 router.post('/passwordreset', userController.passwordReset);

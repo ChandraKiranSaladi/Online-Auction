@@ -20,7 +20,7 @@
 
       <form class="example-form" [formGroup]="form" *ngIf="item" (submit)="OnBid()">
         <mat-form-field class="example-full-width">
-          <input matInput type="number" placeholder="BidPrice" [value]="bidValue" formControlName="bidForm">
+          <input matInput type="number" placeholder="BidPrice" [value]="newBidValue" formControlName="bidForm">
           <mat-error *ngIf="form.get('bidForm').invalid">Entire Correct Value</mat-error>
         </mat-form-field>
         <button mat-button type="submit" color="accent">Bid</button>

@@ -42,7 +42,7 @@ mongoose.connect(mongooseURI, {
                         logger.info("Saved Object to database. Object:\n" + doc);
                         channel.ack(msg);
 
-                        redisClient.set('Current Bid Value', JSON.stringify(bid));
+                        redisClient.set('CurrentBidValue', JSON.stringify(bid));
                     })
                     .catch((err) => {
                         logger.error("Error failed to process bid: " + bid + "\n Error: " + err);

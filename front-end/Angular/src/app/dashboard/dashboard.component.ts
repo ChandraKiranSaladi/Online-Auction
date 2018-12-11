@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.poll = interval(5000).pipe(
+    this.poll = interval(2000).pipe(
       startWith(0),
       switchMap(() => this.itemService.getCurrentItem())
     );
@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
                     this.name = this.user.name.firstname;
                   });
 
-                  this.form.controls["bidForm"].setValue(this.currentBid.bidPrice);
+                  // this.form.controls["bidForm"].setValue(this.currentBid.bidPrice);
                 }
               },
               err => {
