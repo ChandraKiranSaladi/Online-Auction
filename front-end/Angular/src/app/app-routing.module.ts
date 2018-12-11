@@ -11,6 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SearchComponent } from './search/search.component';
+import { BidHistoryComponent } from './BidHistory/bidhistory.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
 
 
   { path: 'item/search', component: SearchComponent },
+  { path: 'bidhistory/:itemId', component: BidHistoryComponent },
   { path: '**', component: NotFoundComponent }
   // { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { expectedRole: ['Admin'] } }
 ];

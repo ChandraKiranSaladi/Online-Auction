@@ -9,6 +9,7 @@ export class Item {
     end: string
   }
   imagePath: string;
+  isScheduled: boolean;
 }
 
 

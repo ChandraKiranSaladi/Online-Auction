@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
-import * as moment from 'moment';
 import { Item } from "../../models/Item";
 import { ItemService } from "../../services/item.service";
 import { User } from "src/app/models/User";
@@ -36,13 +35,9 @@ export class ItemListComponent implements OnInit, OnDestroy {
       .getItemUpdateListener()
       .subscribe((items: Item[]) => {
         this.isLoading = false;
+        // this.items = items;
+
         this.items = items;
-
-        this.items.forEach(ele => {
-          ele.date = moment(ele.date).format("MM/DD/2018");
-
-        })
-
       });
 
     this.profileService.getUserDetails().subscribe(

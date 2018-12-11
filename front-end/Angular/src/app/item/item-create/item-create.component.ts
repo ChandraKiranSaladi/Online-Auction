@@ -67,7 +67,8 @@ export class ItemCreateComponent implements OnInit {
             content: itemData.data.content,
             initialBidPrice: itemData.data.initialBidPrice,
             time: { start: itemData.data.start, end: itemData.data.end },
-            imagePath: null
+            imagePath: null,
+            isScheduled: moment(itemData.data.date).isBefore(new Date())
           };
 
           this.selected = this.item.time.start + "-" + this.item.time.end;

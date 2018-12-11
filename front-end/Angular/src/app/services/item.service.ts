@@ -1,6 +1,7 @@
 import { Item } from "../models/Item";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
+import * as moment from 'moment';
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -34,6 +35,12 @@ export class ItemService {
         })
       )
       .subscribe(transformedData => {
+
+        transformedData.forEach(ele => {
+          ele.date = moment(ele.date).format("MM/DD/YYYY");
+          ele.isScheduled = moment(ele.date).isBefore(new Date());
+          console.log("scheduled ",ele.isScheduled,"date ",ele.date);
+        })
         this.items = transformedData;
         this.itemUpdated.next([...this.items]);
       });
@@ -48,18 +55,13 @@ export class ItemService {
     return this.itemUpdated.asObservable();
   }
 
-  getItem(id: String) {
+  getItem(id: string) {
     return this.http.get<{
-      data: {
-        _id: string;
-        title: string;
-        content: string;
-        date: string;
-        initialBidPrice: string;
-        start: string;
-        end: string;
-      };
-    }>(this.baseUrl + "/item/" + id);
+      data: any }>(this.baseUrl + "/item/" + id);
+  }
+
+  getBids(id: string) {
+    return this.http.get<{data: any}>(this.baseUrl + "/bid/history/" + id);
   }
 
   updateItem(
@@ -131,7 +133,8 @@ export class ItemService {
           date: date,
           initialBidPrice: price,
           time: { start: start, end: end },
-          imagePath: responseData.data.item.imagePath
+          imagePath: responseData.data.item.imagePath,
+          isScheduled: false
         };
 
         this.items.push(item);

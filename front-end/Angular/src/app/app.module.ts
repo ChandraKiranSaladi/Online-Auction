@@ -40,6 +40,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { SearchComponent } from './search/search.component';
+import { BidHistoryComponent } from './BidHistory/bidhistory.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +54,8 @@ import { SearchComponent } from './search/search.component';
     ResetPasswordComponent,
     DashboardComponent,
     NotFoundComponent,
-    SearchComponent
+    SearchComponent,
+    BidHistoryComponent
   ],
   imports: [
     BrowserModule,
