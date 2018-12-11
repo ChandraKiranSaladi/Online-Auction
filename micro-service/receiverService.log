@@ -1,621 +1,134 @@
-2018-12-02T01:12:19.560Z info: Connected to database at 27017
-2018-12-02T01:12:19.621Z info: Connected to RabbitMQ.
+2018-12-11T14:20:48.653Z info: Connected to database at 27017
+2018-12-11T14:20:48.686Z info: Connected to RabbitMQ.
 [*] Waiting for messages in Online-Auction. To exit press CTRL+C
-2018-12-11T08:00:55.119Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:00:55.151Z info: Connected to database at 27017
-2018-12-11T08:00:55.193Z info: Connected to RabbitMQ.
-[*] Waiting for messages in Online-Auction. To exit press CTRL+C
-2018-12-11T08:00:55.246Z info: Received:
-{ _id: 5c0f6d2d9eb1327134bdb895,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 14,
-  itemId: '5c0f6115bf2084f110e1c33f' }
-2018-12-11T08:00:55.258Z info: Received:
-{ _id: 5c0f6dc024076ade100a9555,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
-2018-12-11T08:00:55.260Z info: Received:
-{ _id: 5c0f6e06c55576e4e4d3c823,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
-2018-12-11T08:00:55.267Z error: Error failed to process bid: { _id: 5c0f6d2d9eb1327134bdb895,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 14,
-  itemId: '5c0f6115bf2084f110e1c33f' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:00:55.271Z error: Error failed to process bid: { _id: 5c0f6dc024076ade100a9555,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:00:55.275Z error: Error failed to process bid: { _id: 5c0f6e06c55576e4e4d3c823,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:00:55.306Z info: Received:
-{ _id: 5c0f6d2d9eb1327134bdb895,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 14,
-  itemId: '5c0f6115bf2084f110e1c33f' }
-2018-12-11T08:00:55.312Z info: Received:
-{ _id: 5c0f6dc024076ade100a9555,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
-2018-12-11T08:00:55.313Z info: Received:
-{ _id: 5c0f6e06c55576e4e4d3c823,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
-2018-12-11T08:00:55.316Z error: Error failed to process bid: { _id: 5c0f6d2d9eb1327134bdb895,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 14,
-  itemId: '5c0f6115bf2084f110e1c33f' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:00:55.320Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f6d2d9eb1327134bdb895,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 14,
-  itemId: '5c0f6115bf2084f110e1c33f' }
-2018-12-11T08:00:55.332Z error: Error failed to process bid: { _id: 5c0f6dc024076ade100a9555,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:00:55.333Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f6dc024076ade100a9555,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
-2018-12-11T08:00:55.335Z error: Error failed to process bid: { _id: 5c0f6e06c55576e4e4d3c823,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:00:55.336Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f6e06c55576e4e4d3c823,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6115bf2084f110e1c33f' }
-2018-12-11T08:00:56.341Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:00:57.688Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:00:59.270Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:01:01.258Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:01:03.935Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:01:07.783Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:01:13.615Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:01:22.836Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:01:37.802Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:02:02.539Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:02:43.887Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:03:53.474Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:04:23.862Z info: Received:
-{ _id: 5c0f6f87da869986d4010380,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:04:23.881Z error: Error failed to process bid: { _id: 5c0f6f87da869986d4010380,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:04:23.883Z info: Received:
-{ _id: 5c0f6f87da869986d4010380,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:04:23.885Z error: Error failed to process bid: { _id: 5c0f6f87da869986d4010380,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:04:23.886Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f6f87da869986d4010380,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 1,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:05:51.067Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:07:07.595Z info: Received:
-{ _id: 5c0f702b156497a87cdcd84a,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 33332,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:07:07.606Z error: Error failed to process bid: { _id: 5c0f702b156497a87cdcd84a,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 33332,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:07:07.608Z info: Received:
-{ _id: 5c0f702b156497a87cdcd84a,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 33332,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:07:07.610Z error: Error failed to process bid: { _id: 5c0f702b156497a87cdcd84a,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 33332,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:07:07.611Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f702b156497a87cdcd84a,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 33332,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:09:10.271Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:14:48.212Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:22:43.608Z info: Received:
-{ _id: 5c0f73d3e0a35c5224f1448f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 123,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:22:43.616Z error: Error failed to process bid: { _id: 5c0f73d3e0a35c5224f1448f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 123,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:22:43.620Z info: Received:
-{ _id: 5c0f73d3e0a35c5224f1448f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 123,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:22:43.623Z error: Error failed to process bid: { _id: 5c0f73d3e0a35c5224f1448f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 123,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:22:43.635Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f73d3e0a35c5224f1448f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 123,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:27:26.853Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:27:26.869Z info: Connected to database at 27017
-2018-12-11T08:27:26.888Z info: Connected to RabbitMQ.
-[*] Waiting for messages in Online-Auction. To exit press CTRL+C
-2018-12-11T08:27:26.914Z info: Received:
-{ _id: 5c0f74590477a008e555a67b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12234,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:27:26.925Z error: Error failed to process bid: { _id: 5c0f74590477a008e555a67b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12234,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:27:26.928Z info: Received:
-{ _id: 5c0f74590477a008e555a67b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12234,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:27:26.933Z error: Error failed to process bid: { _id: 5c0f74590477a008e555a67b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12234,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:27:26.938Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f74590477a008e555a67b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12234,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:27:28.065Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:27:29.417Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:27:31.001Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:27:32.988Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:27:35.665Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:27:39.512Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:27:45.353Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:27:54.570Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:28:04.842Z info: Received:
-{ _id: 5c0f7514599d37891853c49f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 13122,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:28:04.849Z error: Error failed to process bid: { _id: 5c0f7514599d37891853c49f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 13122,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:28:04.852Z info: Received:
-{ _id: 5c0f7514599d37891853c49f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 13122,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:28:04.855Z error: Error failed to process bid: { _id: 5c0f7514599d37891853c49f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 13122,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:28:04.869Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f7514599d37891853c49f,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 13122,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:28:09.538Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:28:34.272Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:29:14.738Z info: Received:
-{ _id: 5c0f755a4484142499d7b56b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12213,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:29:14.740Z error: Error failed to process bid: { _id: 5c0f755a4484142499d7b56b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12213,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:29:14.742Z info: Received:
-{ _id: 5c0f755a4484142499d7b56b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12213,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:29:14.743Z error: Error failed to process bid: { _id: 5c0f755a4484142499d7b56b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12213,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:29:14.744Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f755a4484142499d7b56b,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12213,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:29:15.617Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:30:25.200Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:31:46.996Z info: Received:
-{ _id: 5c0f75f213f0cc1b35e6a808,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12344,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:31:46.998Z error: Error failed to process bid: { _id: 5c0f75f213f0cc1b35e6a808,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12344,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:31:47.005Z info: Received:
-{ _id: 5c0f75f213f0cc1b35e6a808,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12344,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:31:47.007Z error: Error failed to process bid: { _id: 5c0f75f213f0cc1b35e6a808,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12344,
-  itemId: '5c0f6f6dda869986d4010379' }
- Error: ValidationError: userId: Path `userId` is required.
-2018-12-11T08:31:47.011Z error: Seeing the packet second time.
-Droping packet from queue, unable to process. Packet:
-{ _id: 5c0f75f213f0cc1b35e6a808,
-  time: 2018-12-11T06:00:00.000Z,
-  bidPrice: 12344,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:32:22.787Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:33:57.800Z info: Received:
-{ _id: 5c0f76757909671bad6221ed,
+2018-12-11T14:31:59.209Z info: Received:
+{ _id: 5c0fca5fe80d9929b59cd133,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 12344,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:33:57.959Z info: Saved Object to database. Object:
-{ _id: 5c0f76757909671bad6221ed,
+  bidPrice: 20,
+  itemId: '5c0fbb968322c0a7881f1ac5' }
+2018-12-11T14:31:59.224Z info: Saved Object to database. Object:
+{ _id: 5c0fca5fe80d9929b59cd133,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 12344,
-  itemId: '5c0f6f6dda869986d4010379',
+  bidPrice: 20,
+  itemId: '5c0fbb968322c0a7881f1ac5',
   __v: 0 }
-2018-12-11T08:34:21.390Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:34:21.410Z info: Connected to database at 27017
-2018-12-11T08:34:21.426Z info: Connected to RabbitMQ.
-[*] Waiting for messages in Online-Auction. To exit press CTRL+C
-2018-12-11T08:34:22.604Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:34:23.947Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:34:25.542Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:34:27.529Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:34:30.204Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:34:34.050Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:34:39.885Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:34:49.104Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:35:04.065Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:35:28.798Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:36:10.140Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:37:19.723Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:39:17.312Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:39:52.735Z info: Connected to database at 27017
-2018-12-11T08:39:52.761Z info: Connected to RabbitMQ.
-[*] Waiting for messages in Online-Auction. To exit press CTRL+C
-2018-12-11T08:40:01.899Z info: Received:
-{ _id: 5c0f77e17909671bad6221ee,
+2018-12-11T14:32:01.563Z info: Received:
+{ _id: 5c0fca61e80d9929b59cd134,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123444,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:40:01.920Z info: Saved Object to database. Object:
-{ _id: 5c0f77e17909671bad6221ee,
+  bidPrice: 20,
+  itemId: '5c0fbb968322c0a7881f1ac5' }
+2018-12-11T14:32:01.567Z info: Saved Object to database. Object:
+{ _id: 5c0fca61e80d9929b59cd134,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123444,
-  itemId: '5c0f6f6dda869986d4010379',
+  bidPrice: 20,
+  itemId: '5c0fbb968322c0a7881f1ac5',
   __v: 0 }
-2018-12-11T08:41:15.627Z error: Something went wrong while trying to communicating to Redis Server.
+2018-12-11T14:32:14.220Z info: Received:
+{ _id: 5c0fca6ee80d9929b59cd138,
+  time: 2018-12-11T06:00:00.000Z,
+  userId: '5c09e37eb6b7adb270994824',
+  bidPrice: 20,
+  itemId: '5c0fbb968322c0a7881f1ac5' }
+2018-12-11T14:32:14.225Z info: Saved Object to database. Object:
+{ _id: 5c0fca6ee80d9929b59cd138,
+  time: 2018-12-11T06:00:00.000Z,
+  userId: '5c09e37eb6b7adb270994824',
+  bidPrice: 20,
+  itemId: '5c0fbb968322c0a7881f1ac5',
+  __v: 0 }
+2018-12-11T14:32:21.214Z info: Received:
+{ _id: 5c0fca75e80d9929b59cd13a,
+  time: 2018-12-11T06:00:00.000Z,
+  userId: '5c09e37eb6b7adb270994824',
+  bidPrice: 25,
+  itemId: '5c0fbb968322c0a7881f1ac5' }
+2018-12-11T14:32:21.220Z info: Saved Object to database. Object:
+{ _id: 5c0fca75e80d9929b59cd13a,
+  time: 2018-12-11T06:00:00.000Z,
+  userId: '5c09e37eb6b7adb270994824',
+  bidPrice: 25,
+  itemId: '5c0fbb968322c0a7881f1ac5',
+  __v: 0 }
+2018-12-11T14:57:36.185Z error: Something went wrong while trying to communicating to Redis Server.
 Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:41:16.970Z error: Something went wrong while trying to communicating to Redis Server.
+2018-12-11T14:57:37.542Z error: Something went wrong while trying to communicating to Redis Server.
 Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:41:18.552Z error: Something went wrong while trying to communicating to Redis Server.
+2018-12-11T14:57:39.123Z error: Something went wrong while trying to communicating to Redis Server.
 Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:41:20.540Z error: Something went wrong while trying to communicating to Redis Server.
+2018-12-11T14:57:41.110Z error: Something went wrong while trying to communicating to Redis Server.
 Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:41:23.215Z error: Something went wrong while trying to communicating to Redis Server.
+2018-12-11T14:57:43.784Z error: Something went wrong while trying to communicating to Redis Server.
 Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:41:27.059Z error: Something went wrong while trying to communicating to Redis Server.
+2018-12-11T14:57:47.634Z error: Something went wrong while trying to communicating to Redis Server.
 Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:41:32.899Z error: Something went wrong while trying to communicating to Redis Server.
+2018-12-11T14:57:53.469Z error: Something went wrong while trying to communicating to Redis Server.
 Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:41:42.115Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:41:57.080Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:42:21.813Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:43:03.160Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:44:12.788Z error: Something went wrong while trying to communicating to Redis Server.
-Message: Error: Redis connection to 127.0.0.1:6379 failed - connect ECONNREFUSED 127.0.0.1:6379
-2018-12-11T08:48:50.477Z info: Received:
-{ _id: 5c0f79f220cefea5d8424e6f,
+2018-12-11T15:01:16.680Z info: Received:
+{ _id: 5c0fd13c04da95345dee91f5,
   time: 2018-12-11T06:00:00.000Z,
-  userId: '5c0f79e520cefea5d8424e6e',
-  bidPrice: 123123,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:48:50.494Z info: Saved Object to database. Object:
-{ _id: 5c0f79f220cefea5d8424e6f,
+  userId: '5c09e37eb6b7adb270994824',
+  bidPrice: 15,
+  itemId: '5c0fd12504da95345dee91ea' }
+2018-12-11T15:01:16.687Z info: Saved Object to database. Object:
+{ _id: 5c0fd13c04da95345dee91f5,
   time: 2018-12-11T06:00:00.000Z,
-  userId: '5c0f79e520cefea5d8424e6e',
-  bidPrice: 123123,
-  itemId: '5c0f6f6dda869986d4010379',
+  userId: '5c09e37eb6b7adb270994824',
+  bidPrice: 15,
+  itemId: '5c0fd12504da95345dee91ea',
   __v: 0 }
-2018-12-11T08:55:10.463Z info: Received:
-{ _id: 5c0f7b6e20cefea5d8424e70,
+2018-12-11T15:01:18.574Z info: Received:
+{ _id: 5c0fd13e04da95345dee91f6,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123344,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:55:10.482Z info: Saved Object to database. Object:
-{ _id: 5c0f7b6e20cefea5d8424e70,
+  bidPrice: 15,
+  itemId: '5c0fd12504da95345dee91ea' }
+2018-12-11T15:01:18.576Z info: Saved Object to database. Object:
+{ _id: 5c0fd13e04da95345dee91f6,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123344,
-  itemId: '5c0f6f6dda869986d4010379',
+  bidPrice: 15,
+  itemId: '5c0fd12504da95345dee91ea',
   __v: 0 }
-2018-12-11T08:59:15.680Z info: Received:
-{ _id: 5c0f7c6320cefea5d8424e71,
+2018-12-11T15:01:27.037Z info: Received:
+{ _id: 5c0fd14704da95345dee91f9,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123445,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:59:15.699Z info: Saved Object to database. Object:
-{ _id: 5c0f7c6320cefea5d8424e71,
+  bidPrice: 15,
+  itemId: '5c0fd12504da95345dee91ea' }
+2018-12-11T15:01:27.042Z info: Saved Object to database. Object:
+{ _id: 5c0fd14704da95345dee91f9,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123445,
-  itemId: '5c0f6f6dda869986d4010379',
+  bidPrice: 15,
+  itemId: '5c0fd12504da95345dee91ea',
   __v: 0 }
-2018-12-11T08:59:48.929Z info: Received:
-{ _id: 5c0f7c8420cefea5d8424e72,
+2018-12-11T15:01:31.688Z info: Received:
+{ _id: 5c0fd14b04da95345dee91fb,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 1234456,
-  itemId: '5c0f6f6dda869986d4010379' }
-2018-12-11T08:59:48.937Z info: Saved Object to database. Object:
-{ _id: 5c0f7c8420cefea5d8424e72,
+  bidPrice: 15,
+  itemId: '5c0fd12504da95345dee91ea' }
+2018-12-11T15:01:31.690Z info: Saved Object to database. Object:
+{ _id: 5c0fd14b04da95345dee91fb,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 1234456,
-  itemId: '5c0f6f6dda869986d4010379',
+  bidPrice: 15,
+  itemId: '5c0fd12504da95345dee91ea',
   __v: 0 }
-2018-12-11T09:01:13.826Z info: Received:
-{ _id: 5c0f7cd920cefea5d8424e7b,
+2018-12-11T15:01:51.308Z info: Received:
+{ _id: 5c0fd15f04da95345dee91ff,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 12356,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:01:13.832Z info: Saved Object to database. Object:
-{ _id: 5c0f7cd920cefea5d8424e7b,
+  bidPrice: 20,
+  itemId: '5c0fd12504da95345dee91ea' }
+2018-12-11T15:01:51.311Z info: Saved Object to database. Object:
+{ _id: 5c0fd15f04da95345dee91ff,
   time: 2018-12-11T06:00:00.000Z,
   userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 12356,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:02:24.097Z info: Received:
-{ _id: 5c0f7d2020cefea5d8424e7c,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 1235612,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:02:24.108Z info: Saved Object to database. Object:
-{ _id: 5c0f7d2020cefea5d8424e7c,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 1235612,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:02:44.985Z info: Received:
-{ _id: 5c0f7d3420cefea5d8424e7d,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123564556,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:02:44.993Z info: Saved Object to database. Object:
-{ _id: 5c0f7d3420cefea5d8424e7d,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123564556,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:06:59.746Z info: Received:
-{ _id: 5c0f7e3320cefea5d8424e7e,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 1235612345,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:06:59.753Z info: Saved Object to database. Object:
-{ _id: 5c0f7e3320cefea5d8424e7e,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 1235612345,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:07:16.036Z info: Received:
-{ _id: 5c0f7e4420cefea5d8424e7f,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 12356,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:07:16.044Z info: Saved Object to database. Object:
-{ _id: 5c0f7e4420cefea5d8424e7f,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 12356,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:07:30.562Z info: Received:
-{ _id: 5c0f7e5220cefea5d8424e80,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 556556,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:07:30.567Z info: Saved Object to database. Object:
-{ _id: 5c0f7e5220cefea5d8424e80,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 556556,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:10:53.775Z info: Received:
-{ _id: 5c0f7f1d20cefea5d8424e81,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 56565656,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:10:53.799Z info: Saved Object to database. Object:
-{ _id: 5c0f7f1d20cefea5d8424e81,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 56565656,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:11:14.803Z info: Received:
-{ _id: 5c0f7f3220cefea5d8424e82,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 99999999,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:11:14.810Z info: Saved Object to database. Object:
-{ _id: 5c0f7f3220cefea5d8424e82,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 99999999,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:23:53.808Z info: Received:
-{ _id: 5c0f822920cefea5d8424e83,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123560000000,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:23:53.853Z info: Saved Object to database. Object:
-{ _id: 5c0f822920cefea5d8424e83,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123560000000,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:27:42.391Z info: Received:
-{ _id: 5c0f830e9ffc7a1c69eb89f3,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c0f79e520cefea5d8424e6e',
-  bidPrice: 12356000000011,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:27:42.397Z info: Saved Object to database. Object:
-{ _id: 5c0f830e9ffc7a1c69eb89f3,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c0f79e520cefea5d8424e6e',
-  bidPrice: 12356000000011,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T09:33:21.893Z info: Received:
-{ _id: 5c0f84619ffc7a1c69eb89f4,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123560000000112,
-  itemId: '5c0f7cc520cefea5d8424e73' }
-2018-12-11T09:33:21.908Z info: Saved Object to database. Object:
-{ _id: 5c0f84619ffc7a1c69eb89f4,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123560000000112,
-  itemId: '5c0f7cc520cefea5d8424e73',
-  __v: 0 }
-2018-12-11T10:19:09.104Z info: Received:
-{ _id: 5c0f8f1cef296c21153ad330,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123560000000112130,
-  itemId: '5c0f8f05ef296c21153ad327' }
-2018-12-11T10:19:09.178Z info: Saved Object to database. Object:
-{ _id: 5c0f8f1cef296c21153ad330,
-  time: 2018-12-11T06:00:00.000Z,
-  userId: '5c09e37eb6b7adb270994824',
-  bidPrice: 123560000000112130,
-  itemId: '5c0f8f05ef296c21153ad327',
+  bidPrice: 20,
+  itemId: '5c0fd12504da95345dee91ea',
   __v: 0 }

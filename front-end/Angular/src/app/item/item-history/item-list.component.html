@@ -25,7 +25,7 @@
         </mat-card-content>
       </div>
 
-      <form *ngIf="isEdit" class="example-form">
+      <form *ngIf="isEdit" class="example-form" (submit)="updateUserName()">
         <mat-form-field class="example-full-width">
           <input matInput name="firstname" placeholder="First name" [(ngModel)]="user.name.firstname">
         </mat-form-field>
@@ -37,7 +37,7 @@
         <div class="row">
           <div class="col-md-6"></div>
           <div class="col-md-4">
-            <button name="submitBtn" *ngIf="isEdit" mat-raised-button (click)="saveProfile()">Save</button>
+            <button name="submitBtn" *ngIf="isEdit" mat-raised-button>Save</button>
           </div>
         </div>
       </form>

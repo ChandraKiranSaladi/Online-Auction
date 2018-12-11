@@ -1,9 +1,18 @@
 const mongoose = require('mongoose');
 const Item = require('../models/item');
+const Bid = require('../models/bids');
 const bodyParser = require('body-parser');
 const Schedule = require('../models/schedule');
 const Bids = require('../models/bids');
 const moment = require('moment');
+const redis = require('redis');
+const redisClient = redis.createClient();
+redisClient.on('connect', function () {
+    console.log('Redis client connected');
+});
+redisClient.on('error', function (err) {
+    console.log('Something went wrong ' + err);
+});
 
 exports.getAllItems = (req, res, next) => {
     // get all 
@@ -36,8 +45,8 @@ exports.getAllItems = (req, res, next) => {
 exports.post = (req, res, next) => {
     // console.log("time here is"+req.body.start)
     // console.log("time moment is "+ moment(req.body.start));
-    const date1 = moment(req.body.start,"HH:mm:ss").format("HH:mm:ss");
-    const date2 = moment(req.body.end,"HH:mm:ss").format("HH:mm:ss");
+    const date1 = moment(req.body.start, "HH:mm:ss").format("HH:mm:ss");
+    const date2 = moment(req.body.end, "HH:mm:ss").format("HH:mm:ss");
     console.log(date1 + " " + date2);
     console.log("start :" + req.body.start + " end: " + req.body.end);
 
@@ -72,8 +81,8 @@ exports.post = (req, res, next) => {
             });
 
             Schedule.findOneAndUpdate({
-                date: schedule.date
-            }, {
+                    date: schedule.date
+                }, {
                     $push: {
                         items: {
                             itemId: result._id
@@ -121,8 +130,8 @@ exports.post = (req, res, next) => {
                             itemId: result._id
                         });
                         Schedule.update({
-                            items: items
-                        },
+                                items: items
+                            },
                             (err, item) => {
                                 if (err) return res.status(500).json({
                                     status: "failed",
@@ -207,10 +216,10 @@ exports.updateById = (req, res, next) => {
         imagePath: url + "/images/" + req.file.filename
 
     };
-    console.log("______"+JSON.stringify(item));
+    console.log("______" + JSON.stringify(item));
     Item.findOneAndUpdate({
-        _id: req.params.itemId
-    }, item,
+            _id: req.params.itemId
+        }, item,
         (err, item) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -239,8 +248,8 @@ exports.updateById = (req, res, next) => {
 exports.getById = (req, res, next) => {
     // update item
     Item.findOne({
-        _id: req.params.itemId
-    }, req.body.item,
+            _id: req.params.itemId
+        }, req.body.item,
         (err, item) => {
             if (err) return res.status(500).json({
                 status: "failed",
@@ -274,12 +283,12 @@ exports.deleteById = (req, res, next) => {
     }, (err, item) => {
         if (item) {
             Schedule.findOne({
-                items: {
-                    $elemMatch: {
-                        itemId: req.params.itemId
+                    items: {
+                        $elemMatch: {
+                            itemId: req.params.itemId
+                        }
                     }
-                }
-            },
+                },
                 (err, sched) => {
                     if (err) return res.status(500).json({
                         status: "failed",
@@ -305,8 +314,8 @@ exports.deleteById = (req, res, next) => {
                         });
 
                         Item.findOneAndDelete({
-                            _id: req.params.itemId
-                        })
+                                _id: req.params.itemId
+                            })
                             .then(result => {
                                 console.log(result);
 
@@ -342,37 +351,55 @@ exports.deleteById = (req, res, next) => {
     })
 };
 
-// TODO: Test this endpoint
 exports.getCurrentBidByItemId = (req, res, next) => {
     var itemId = req.params.itemId;
     // find().limit(1).sort({$natural:-1})
-    Bids.find({itemId: itemId}).limit(1).sort({$natural:-1}).then(
-        bid => {
-            var message = "Current bid on the Item";
-            if (!bid[0]) 
-                message = "There are currently zero bids on the item."
+    redisClient.get('CurrentBidValue', function (err, bid) {
+        console.log("****",bid);
+        if (bid && bid.itemId == itemId) {
+            console.log("------------------", bid);
             return res.status(200).json({
                 status: "success",
                 message: message,
-                data: bid[0],
+                data: Object.assign(new Bid, JSON.parse(bid)),
                 error: {}
             });
         }
-    ).catch(
-        err => {
-            return res.status(404).json({
-                status: "failed",
-                message: "Failed to fetch Current bid value on Item",
-                error: {
-                    message: "Failed to fetch Current bid value on Item"
-                }
-            });
-        }
-    );
+        Bids.find({
+            itemId: itemId
+        }).limit(1).sort({
+            $natural: -1
+        }).then(
+            bid => {
+                var message = "Current bid on the Item";
+                if (!bid[0])
+                    message = "There are currently zero bids on the item.";
+                redisClient.set('CurrentBidValue', JSON.stringify(bid[0]));
+                return res.status(200).json({
+                    status: "success",
+                    message: message,
+                    data: bid[0],
+                    error: {}
+                });
+            }
+        ).catch(
+            err => {
+                return res.status(404).json({
+                    status: "failed",
+                    message: "Failed to fetch Current bid value on Item",
+                    error: {
+                        message: "Failed to fetch Current bid value on Item"
+                    }
+                });
+            }
+        );
+    });
 }
 
 exports.getItemsByDate = (req, res, next) => {
-    Item.find({ date: moment(req.params.date, "YYYYMMDD") }).then(
+    Item.find({
+        date: moment(req.params.date, "YYYYMMDD")
+    }).then(
         (data) => {
             return res.status(200).json({
                 data: data,

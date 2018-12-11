@@ -2,11 +2,17 @@ const mongoose = require('mongoose');
 const Schedule = require('../models/schedule');
 const Item = require('../models/item');
 const moment = require('moment');
+const redis = require('redis');
+const redisClient = redis.createClient();
+redisClient.on('connect', function () {
+    console.log('Redis client connected');
+});
+redisClient.on('error', function (err) {
+    console.log('Something went wrong ' + err);
+});
 
 exports.getAvailableSlots = (req, res, next) => {
 
-    // TODO: Input: Date. Output: Slots. Set a default array with start and times. like 8am to 8:04am for 10 items. 
-    // TODO: If already reserved, eliminate that slot and return back. 
     var def = [{
         start: "8:00:00",
         end: "8:00:59"
@@ -117,38 +123,70 @@ exports.getCurrentAuctionItem = (req, res, next) => {
     const date = moment(now).format("YYYY-MM-DD");
     const today = new Date(moment(date));
     // , time: { start: { $lte: time }, end: { $gte: time } }
-    Item.find({}).then(
-        items => {
-            var item = null;
-            for (var i = 0; i < items.length; i++) {
-                var element = items[i];
-                if (moment(new Date(element.date)).isSame(moment(today)) &&
-                    moment(element.time.start, "HH:mm:ss").isSameOrBefore(moment(now)) &&
-                    moment(element.time.end, "HH:mm:ss").isSameOrAfter(moment(now))) {
-                    item = element;
-                    break;
-                }
+    redisClient.get('CurrentAuctionItem', function (err, item) {
+        if (item) {
+            item = Object.assign(new Item, JSON.parse(item));
+            if (moment().isAfter(moment(item.time.end, "HH:mm:ss"))) {
+                redisClient.del('CurrentAuctionItem', function (err, reply) {
+                    console.log('Deleted Key: ' + 'CurrentAuctionItem');
+                });
+                redisClient.del('CurrentBidValue', function (err, reply) {
+                    console.log('Deleted Key: ' + 'CurrentBidValue');
+                });
+                return res.status(200).json({
+                    status: "success",
+                    message: "No item is auctioned currently",
+                    error: {}
+                });
             }
-            var message = "Item currently Auctioned";
-            if (!item) message = "No item is auctioned currently"
             return res.status(200).json({
                 status: "success",
-                message: message,
+                message: "Item currently Auctioned",
                 data: item,
                 error: {}
             });
         }
-    ).catch(
-        err => {
-            return res.status(404).json({
-                status: "failed",
-                message: "Failed to fetch Current Auction Item",
-                error: {
-                    message: "Failed to fetch Current Auction Item"
+        Item.find({}).then(
+            items => {
+                var item = null;
+                for (var i = 0; i < items.length; i++) {
+                    var element = items[i];
+                    if (moment(new Date(element.date)).isSame(moment(today)) &&
+                        moment(element.time.start, "HH:mm:ss").isSameOrBefore(moment()) &&
+                        moment(element.time.end, "HH:mm:ss").isSameOrAfter(moment())) {
+                        console.log("------------", element);
+                        item = element;
+                        break;
+                    }
                 }
-            });
-        }
-    );
+                var message = "Item currently Auctioned";
+                if (!item) {
+                    message = "No item is auctioned currently";
+                } else {
+                    var expiry = moment().diff(moment(element.time.end, "HH:mm:ss"), 'seconds');
+                    redisClient.set('CurrentAuctionItem', JSON.stringify(item));
+                    client.expireat(key, parseInt((+new Date) / 1000) + expiry);
+                    Console.log("\n\n----------\nDataStored");
+                }
+                return res.status(200).json({
+                    status: "success",
+                    message: message,
+                    data: item,
+                    error: {}
+                });
+            }
+        ).catch(
+            err => {
+                return res.status(404).json({
+                    status: "failed",
+                    message: "Failed to fetch Current Auction Item",
+                    error: {
+                        message: "Failed to fetch Current Auction Item"
+                    }
+                });
+            }
+        );
+    });
 }
 
 
@@ -208,7 +246,7 @@ function someReservedSlots(res, date) {
                 //     })
                 // })
 
-                // TODO: Difference in time should be used by date object
+                // Difference in time should be used by date object
                 var time = (moment(sched.time.end, "HH:mm:ss")).diff(moment(sched.time.start, "HH:mm:ss"), 'minutes');
 
 
@@ -248,7 +286,7 @@ function getTimeStops(start, end, itemNumbers) {
     var timeStops = [];
 
     while (startTime < endTime) {
-        // TODO: check if this startTime is startTime of any item
+        //  check if this startTime is startTime of any item
         timeStops.push({
             start: new moment(startTime).format('HH:mm:ss'),
             end: new moment(startTime).add(timePerSlot, 'minutes').add(-1, 'seconds').format('HH:mm:ss')

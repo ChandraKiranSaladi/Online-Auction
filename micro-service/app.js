@@ -25,7 +25,9 @@ mongoose.connect(mongooseURI, {
         conn.createChannel(function (err, channel) {
             var q = 'Online-Auction';
 
-            channel.assertQueue(q, { durable: false });
+            channel.assertQueue(q, {
+                durable: false
+            });
             logger.info("Connected to RabbitMQ.\n[*] Waiting for messages in " + q + ". To exit press CTRL+C");
             channel.consume(q, function (msg) {
                 var msg_str = msg.content.toString();
@@ -47,8 +49,7 @@ mongoose.connect(mongooseURI, {
                         if (msg.fields.redelivered) {
                             logger.error("Seeing the packet second time.\nDroping packet from queue, unable to process. Packet:\n" + bid);
                             channel.reject(msg, false);
-                        }
-                        else
+                        } else
                             channel.reject(msg, true);
                     });
             });

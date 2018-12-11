@@ -84,7 +84,8 @@ export class ItemListComponent implements OnInit, OnDestroy {
     );
   }
 
-  saveProfile() {
+  updateUserName() {
+    // TODO: Add backend update username API.
     this.isEdit = !this.isEdit;
   }
 }

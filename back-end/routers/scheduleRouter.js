@@ -3,7 +3,7 @@ const express = require('express');
 const verifyToken = require('../auth/VerifyToken');
 const router = express.Router();
 
-router.get('/getCurrent', scheduleController.getCurrentAuctionItem);
+router.get('/getCurrent', scheduleController.getCurrentAuctionItem); // TODO: cache
 
 router.get('/getAll', verifyToken, scheduleController.getAll);
 router.get('/slots/:date', verifyToken, scheduleController.getAvailableSlots);

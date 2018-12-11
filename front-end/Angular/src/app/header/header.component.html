@@ -5,6 +5,7 @@
   <mat-toolbar-row>
     <button mat-button (click)="router.navigate(['/'])"><span>Zeppelin</span></button>
     <span class="example-spacer"></span>
+    <button mat-button (click)="router.navigate(['/item/search'])"><span><i class="fa fa-search example-icon"></i>Search</span></button>
     <button mat-button *ngIf="!isLoggedIn()" (click)="router.navigate(['/login'])"><span>Login<i class="fas fa-sign-in-alt example-icon"></i></span></button>
 
     <button mat-button *ngIf="isLoggedIn()" (click)="router.navigate(['/item/create'])" ><span><i class="fas fa-plus example-icon"></i>Post</span></button>
@@ -12,10 +13,8 @@
     <button mat-button *ngIf="isLoggedIn() && isAdmin()" (click)="router.navigate(['/admin'])"><span><i class="fas fa-calendar example-icon"></i>Manage
         Schedule</span></button>
 
-    <button mat-button *ngIf="isLoggedIn()" (click)="router.navigate(['/profile'])"><span><i class="far fa-user example-icon"></i>Profile</span></button>
+        <button mat-button *ngIf="isLoggedIn()" (click)="router.navigate(['/profile'])"><span><i class="far fa-user example-icon"></i>Profile</span></button>
     <button mat-button *ngIf="isLoggedIn()" (click)="signout()"><span>Logout<i class="fas fa-sign-out-alt example-icon"></i></span></button>
-    <button mat-button (click)="router.navigate(['/item/search'])"><span><i class="fas fa-users-cog example-icon"></i>Manage
-      Search</span></button>
   </mat-toolbar-row>
   <!-- </div>
     <div class="col-md-1"></div>
