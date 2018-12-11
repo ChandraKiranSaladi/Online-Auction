@@ -345,15 +345,16 @@ exports.deleteById = (req, res, next) => {
 // TODO: Test this endpoint
 exports.getCurrentBidByItemId = (req, res, next) => {
     var itemId = req.params.itemId;
-
-    Bids.findOne({ $query: { itemId: itemId }, $orderby: { time: -1 } }).then(
+    // find().limit(1).sort({$natural:-1})
+    Bids.find({itemId: itemId}).limit(1).sort({$natural:-1}).then(
         bid => {
             var message = "Current bid on the Item";
-            if (!item) message = "There are currently zero bids on the item."
+            if (!bid[0]) 
+                message = "There are currently zero bids on the item."
             return res.status(200).json({
                 status: "success",
                 message: message,
-                data: bid,
+                data: bid[0],
                 error: {}
             });
         }

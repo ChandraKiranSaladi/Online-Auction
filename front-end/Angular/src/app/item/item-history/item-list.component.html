@@ -52,16 +52,16 @@
 
       <mat-expansion-panel *ngFor="let item of items">
         <mat-expansion-panel-header>
-          {{ item.title }}
+          <strong>Title: </strong> {{ item.title }}
         </mat-expansion-panel-header>
         <div class="item-image">
           <img [src]="item.imagePath" [alt]="item.title">
         </div>
-        <p>{{ item.content }}</p>
-        <p>{{ item.date }}</p>
-        <p>{{ item.initialBidPrice }}</p>
-        <p>{{ item.time.start }}</p>
-        <p>{{ item.time.end }}</p>
+        <p><strong>Content: </strong>{{ item.content }}</p>
+        <p><strong>Date: </strong>{{ item.date }}</p>
+        <p><strong>InitialBidPrice: </strong>{{ item.initialBidPrice }}</p>
+        <p><strong>Start time: </strong>{{ item.time.start }}</p>
+        <p><strong>End time: </strong>{{ item.time.end }}</p>
 
         <mat-action-row>
           <a mat-button [routerLink]="['/edit',item.id]" color="accent">EDIT</a>

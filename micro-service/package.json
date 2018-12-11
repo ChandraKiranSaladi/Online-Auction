@@ -13,6 +13,7 @@
     "dependencies": {
         "amqplib": "^0.5.2",
         "mongoose": "^5.3.14",
+        "nodemon": "^1.18.8",
         "redis": "^2.8.0",
         "winston": "^3.1.0"
     }

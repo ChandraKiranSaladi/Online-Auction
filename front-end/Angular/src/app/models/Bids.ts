@@ -1,6 +1,6 @@
 export class Bid {
-	userId: String;
-	bidPrice: Number;
-	itemId: String;
-	time: Date;
+	userId: string;
+	bidPrice: string;
+	itemId: string;
+	time: string;
 }

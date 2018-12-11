@@ -344,7 +344,20 @@ exports.updatePassword = (req, res, next) => {
     res.send("dummy");
 };
 exports.getById = (req, res, next) => {
-    res.send("dummy");
+    User.findOne({_id: req.userId}, (err,user) => {
+        if(err)  return res.status(200).json({
+            status: "failed",
+            message: "user details could not be found",
+            error: {"message": "user does not exist"}
+        });
+        return res.status(200).json({
+            status: "success",
+            message: "user details found",
+            data: user,
+            error: []
+        });
+        
+    });
 };
 exports.updateById = (req, res, next) => {
     res.send("dummy");

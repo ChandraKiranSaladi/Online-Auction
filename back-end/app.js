@@ -9,6 +9,7 @@ const helmet = require("helmet");
 const userRouter = require('./routers/userRouter');
 const itemRouter = require('./routers/itemRouter');
 const scheduleRouter = require('./routers/scheduleRouter');
+const bidRouter = require('./routers/bidRouter');
 
 const mongooseURI = 'mongodb://localhost:27017/Online-Auction';
 const app = express();
@@ -52,5 +53,6 @@ mongoose.connect(mongooseURI, {
 app.use('/api/user', userRouter);
 app.use('/api/item', itemRouter);
 app.use('/api/schedule', scheduleRouter);
+app.use('/api/bid',bidRouter);
 
 module.exports = app;

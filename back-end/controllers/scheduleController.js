@@ -30,11 +30,11 @@ exports.getAvailableSlots = (req, res, next) => {
     console.log(moment.utc(req.params.date, "YYYYMMDD").toString());
 
     Schedule.findOne({
-        date: {
-            // $eq: new Date(moment.utc(req.params.date, "YYYYMMDD"))
-            $eq: moment(req.params.date, "YYYYMMDD")
-        }
-    },
+            date: {
+                // $eq: new Date(moment.utc(req.params.date, "YYYYMMDD"))
+                $eq: moment(req.params.date, "YYYYMMDD")
+            }
+        },
         (err, sched) => {
             if (err) return res.status(400).json({
                 status: "failed",
@@ -63,7 +63,7 @@ exports.getAll = (req, res, next) => {
 };
 
 exports.create = (req, res, next) => {
-    var schedule = new Schedule({
+    var schedule = {
         items: [],
         itemNumbers: req.body.schedule.itemNumbers,
         date: req.body.schedule.date,
@@ -71,24 +71,31 @@ exports.create = (req, res, next) => {
             start: req.body.schedule.time.startTime,
             end: req.body.schedule.time.endTime
         }
-    });
-    schedule.save().then((sched) => {
-        return res.status(200).json({
-            message: "Saved successfully.",
-            status: "success",
-            error: {}
-        });
-    }).catch((err) => {
-        return res.status(500).json({
+    };
+    // User.findOneAndUpdate({ email: user.email }, user, { upsert: true })
+    console.log("****sched:" + schedule);
+    Schedule.findOneAndUpdate({
+        date: {
+            // $eq: new Date(moment.utc(req.params.date, "YYYYMMDD"))
+            $eq: moment(req.params.date, "YYYYMMDD")
+        }
+    }, schedule, {
+        upsert: true
+    }, (err, sched) => {
+        if (err) return res.status(500).json({
             message: "Failed to save the schedule.",
             status: "failed",
             error: {
                 message: "Failed to save to the database."
             }
         })
+        return res.status(200).json({
+            message: "Saved successfully.",
+            status: "success",
+            error: {}
+        })
     });
-};
-
+}
 exports.getById = (req, res, next) => {
     // get schedule of item by Id
     res.send("dummy");
@@ -105,7 +112,6 @@ exports.deleteById = (req, res, next) => {
 };
 
 
-// TODO: Test this endpoint
 exports.getCurrentAuctionItem = (req, res, next) => {
     const now = new Date();
     const date = moment(now).format("YYYY-MM-DD");
@@ -165,8 +171,8 @@ function someReservedSlots(res, date) {
     }];
 
     Schedule.findOne({
-        date: moment(date, "YYYYMMDD")
-    },
+            date: moment(date, "YYYYMMDD")
+        },
         (err, sched) => {
             if (err) return res.status(404).json({
                 status: "failed",
