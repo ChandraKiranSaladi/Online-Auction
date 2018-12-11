@@ -38,6 +38,8 @@ import { FooterComponent } from './footer/footer.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import { NotFoundComponent } from './not-found/not-found.component';
+import { SearchComponent } from './search/search.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,7 +51,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     ItemCreateComponent,
     ItemListComponent,
     ResetPasswordComponent,
-    DashboardComponent
+    DashboardComponent,
+    NotFoundComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

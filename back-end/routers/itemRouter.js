@@ -31,7 +31,7 @@ router.get('/itemsByDate/:date', itemController.getItemsByDate);
 router.get('/currentBid/:itemId', itemController.getCurrentBidByItemId);
 
 // add admin route to all items
-router.get('/all', verifyToken, itemController.getAllItems);
+router.get('/all',itemController.getAllItems);
 
 router.post('/create', verifyToken, multer({ storage: storage }).single("image"), itemController.post);
 router.get('/', verifyToken, itemController.getAllUserItems);

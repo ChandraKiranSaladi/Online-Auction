@@ -9,6 +9,8 @@ import { ItemListComponent } from './item/item-history/item-list.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -22,7 +24,10 @@ const routes: Routes = [
   { path: 'edit/:itemId', component: ItemCreateComponent },
   { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { expectedRole: ['admin'] } },
 
-  { path: '**', redirectTo: '' }
+
+  { path: 'item/search', component: SearchComponent },
+  { path: '**', component: NotFoundComponent }
+  // { path: 'admin', component: AdminComponent, canActivate: [RoleGuard], data: { expectedRole: ['Admin'] } }
 ];
 
 @NgModule({

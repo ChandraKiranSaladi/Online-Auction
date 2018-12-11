@@ -174,4 +174,24 @@ export class ItemService {
   createBid(bid: Bid) {
     return this.http.post(this.baseUrl + "/bid/create", bid);
   }
+
+  getAllItems() {
+
+    return this.http.get<{ message: String, data: any }>(this.baseUrl + '/item/all')
+      .pipe(map((itemData) => {
+        return itemData.data.map(item => {
+          return {
+            id: item._id,
+            title: item.title,
+            content: item.content,
+            date: item.date,
+            price: item.initialBidPrice,
+            start: item.time.start,
+            end: item.time.end,
+            imagePath: item.imagePath
+          };
+        });
+      }))
+      ;
+  }
 }
